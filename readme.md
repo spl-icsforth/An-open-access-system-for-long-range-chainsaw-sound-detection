@@ -1,7 +1,9 @@
 # An open access system for long-range chainsaw sound detection
  **Nikolaos Stefanakis¹², Konstantinos Psaroulakis¹, Nikonas Simou¹, Christos Astaras³**
 > **¹** FORTH-ICS, Heraklion, Crete, Greece, GR-70013
+>
 > **²** Hellenic Mediterranean University, Department of Music Technology and Acoustics, Rethymno, Greece, GR-74100
+> 
 > **³** Forest Research Institute, Hellenic Agricultural Organization ”Demeter”, 57006 Vasilika, Thessaloniki
 -----
 ## Initial setup 
