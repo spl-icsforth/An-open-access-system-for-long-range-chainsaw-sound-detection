@@ -1,0 +1,7 @@
+argparse
+audioread
+soundfile
+pandas
+librosa
+tensorflow
+numba==0.48
