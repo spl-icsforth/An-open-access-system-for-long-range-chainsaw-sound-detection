@@ -15,6 +15,8 @@ import tkinter as tk
 
 from main import main
 from tkinter import E, W, N, S
+
+
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
@@ -25,15 +27,29 @@ class MainApplication(tk.Frame):
         
 
         self.btn_lbl.set("Click to choose directory with target .wav files")
-
         dir_frame = tk.Frame(parent)
         dir_frame.grid(row=1, column=0, columnspan=3, sticky=E+W+N+S)        
+        self.pathIN.set("[No directory selected]")
         self.dir_lbl_text.set(f"Directory chosen: {self.pathIN.get()}")
-
-        dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text)
+        dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=500, justify='left')
         dir_lbl.grid(row=0, column=0, padx=(10), pady=10)
         dir_btn = tk.Button(dir_frame, textvariable = self.btn_lbl, command=self.clicked_dir_button)
         dir_btn.grid(row=0, column=1, padx=(10), pady=10)
+
+        vad_frame = tk.Frame(parent)
+        vad_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take values between 0.078-0.15]")
+        vad_lbl.grid(row=0, column=0, padx=(10), pady=10)
+        vad_th = tk.DoubleVar()
+        vad_th.set(0.078)
+        vad_textbox = tk.Entry(vad_frame, textvariable=vad_th)
+        vad_textbox.grid(row=0, column=1, padx=(10), pady=10)
+        vad_slider = tk.Scale(vad_frame, 
+                    from_=0.078, to=0.15, resolution = 0.0001, 
+                    orient=tk.HORIZONTAL, variable = vad_th)
+        vad_slider.grid(row=0, column=2, padx=(10), pady=10, sticky='NSEW')
+
+
 
 
 
@@ -44,7 +60,10 @@ class MainApplication(tk.Frame):
         title='Please select the directory containing the target .wav files.')
         if newdir: self.pathIN.set(newdir)
         print(newdir)
-        self.dir_lbl_text.set(f"Directory chosen: {self.pathIN.get()}")          
+        ch_txt = self.pathIN.get()
+        # width = 50; begin = 8;
+        # if len(ch_txt)>width: ch_txt = f"{ch_txt[:begin]}...{ch_txt[-(width-begin-3):]}"
+        self.dir_lbl_text.set(f"Directory chosen: {ch_txt}")          
         self.btn_lbl.set("Click to change directory")
 
 if __name__ == "__main__":
