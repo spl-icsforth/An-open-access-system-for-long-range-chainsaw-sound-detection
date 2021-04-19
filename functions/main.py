@@ -1,8 +1,13 @@
-def main(pathIN, VADthresh, probThresh, nopREQ):
-        global pool, redirector
-        sys.stdout.write = redirector 
-        sys.stderr.write = redirector
-                    
+import argparse
+import os
+import numpy as np
+import librosa
+import glob
+import multiprocessing
+from extract_pcen_feature import extract_pcen_feature as extract_features
+from classify_features import classify_features 
+
+def main(pathIN, VADthresh, probThresh, nopREQ):                    
         #%% Parameters
         maxDur=400 #in seconds
         nop=multiprocessing.cpu_count()
@@ -57,13 +62,11 @@ def main(pathIN, VADthresh, probThresh, nopREQ):
                 Nsegm=timeBorders.size    
                 
                 def extract_features_redir(wavName,outputDataPath,timeBorders,segmIdx,VADthresh):
-                    sys.stdout.write = redirector
-                    sys.stderr.write = redirector
                     extract_features(wavName,outputDataPath,timeBorders,segmIdx,VADthresh)
                     return
 
                 for segmIdx in range(Nsegm-1): #range(0,Nsegm-1):       
-                    pool.apply_async(extract_features_redir, args=(wavName,outputDataPath,timeBorders,segmIdx,VADthresh))
+                    pool.apply_async(extract_features, args=(wavName,outputDataPath,timeBorders,segmIdx,VADthresh))
 
                 pool.close()
                 pool.join() 
