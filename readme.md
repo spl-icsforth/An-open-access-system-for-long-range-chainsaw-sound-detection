@@ -22,27 +22,32 @@ After installation, "anaconda prompt" will show up in the program list.
 ## Running the algorithm on your data
 The system should be ready to run by now. You can run the tool by calling "detect_chainsaw.py" function.
 1) Open anaconda prompt and navigate to the source code.
-2) Run the code by passing as argument the path of the folder which contains the recordings to be analyzed.
-For example, if the path is "D:/audio/saw_recordings/RP10", then we can simply type (in anaconda prompt):
-    ```sh
-    python detect_chainsaw.py D:/audio/saw_recordings/RP10
-    ```
-* The path of the folder which contains the recordings is the only mandatory input argument.
-* Additional input parameters can be given as follows;
-    * The **VAD threshold value**,  which determines in a way the "sensitivity" of the algorithm.  We can alter the VAD threshold by typing the following command
-        ```py
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -t xxx
+2)  a) Run the gui version of the script by running the following command:
+        ```sh
+        python detect_chainsaw_gui.py
         ```
-        where xxx is the desired value. The default value is 0.08. Furthermore, the minimum acceptable value is 0.078 and there is no upper limit. However, very high values of the threshold will not trigger any detections
-    * **Number of CPUs** to be used. For example, if we want to engage 4 CPUs, we can type:
-        ```py
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -u 4
+        
+    b) Run the command line vresion by passing as argument the path of the folder which contains the recordings to be analyzed.
+    For example, if the path is "D:/audio/saw_recordings/RP10", then we can simply type (in anaconda prompt):
+        ```sh
+        python detect_chainsaw.py D:/audio/saw_recordings/RP10
         ```
-    * **Classifier's probability threshold**. For example, if we want to set a probability threshold equal to 0.5, we can type:
-        ```py
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -p 0.5
-        ```
-        The default value of the probability threshold is 0.75.
+    * The path of the folder which contains the recordings is the only mandatory input argument.
+    * Additional input parameters can be given as follows;
+        * The **VAD threshold value**,  which determines in a way the "sensitivity" of the algorithm.  We can alter the VAD threshold by typing the following command
+            ```py
+            python detect_chainsaw.py D:/audio/saw_recordings/RP10 -t xxx
+            ```
+            where xxx is the desired value. The default value is 0.08. Furthermore, the minimum acceptable value is 0.078 and there is no upper limit. However, very high values of the threshold will not trigger any detections
+        * **Number of CPUs** to be used. For example, if we want to engage 4 CPUs, we can type:
+            ```py
+            python detect_chainsaw.py D:/audio/saw_recordings/RP10 -u 4
+            ```
+        * **Classifier's probability threshold**. For example, if we want to set a probability threshold equal to 0.5, we can type:
+            ```py
+            python detect_chainsaw.py D:/audio/saw_recordings/RP10 -p 0.5
+            ```
+            The default value of the probability threshold is 0.75.
 -----
 ## OUTPUT (what kind of files are created at the end of the analysis)
 Two folders are created inside the primary folder;
