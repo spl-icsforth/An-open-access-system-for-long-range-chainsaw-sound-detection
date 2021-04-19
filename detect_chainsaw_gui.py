@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append("./functions")
-              
+
 import pdb
 import tkinter as tk
 
@@ -58,6 +58,7 @@ class MainApplication(tk.Frame):
                     orient=tk.HORIZONTAL, variable = self.prob_th)
         prob_slider.grid(row=0, column=2, padx=(10), pady=10)
 
+        max_cpus = self.count_processors()
         cpu_frame = tk.Frame(parent)
         cpu_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         cpu_lbl = tk.Label(cpu_frame, text = f"Number of CPU units employed:")
@@ -65,7 +66,7 @@ class MainApplication(tk.Frame):
         cpu_textbox = tk.Entry(cpu_frame, textvariable=self.cpus)
         cpu_textbox.grid(row=0, column=1, padx=(10), pady=10)
         cpu_slider = tk.Scale(cpu_frame, 
-                    from_=1,to=16, resolution = 1, 
+                    from_=1,to=max_cpus, resolution = 1, 
                     orient=tk.HORIZONTAL, variable = self.cpus)
         cpu_slider.grid(row=0, column=2, padx=(10), pady=10)
 
@@ -77,9 +78,17 @@ class MainApplication(tk.Frame):
         self.run_btn.grid(row=0, column=0, padx=(10), pady=10)
 
     def run_main(self):
-        from main import main
-        main(self.pathIN.get(), self.vad_th.get(), \
-             self.prob_th.get(), self.cpus.get())
+        # from main import main
+        global vpathIN, vvad_th,vprob_th, vcpus 
+        vpathIN = self.pathIN.get()
+        vvad_th = self.vad_th.get()
+        vprob_th = self.prob_th.get()
+        vcpus = self.cpus.get()
+        self.parent.destroy()
+        # print("Starting execution. Please wait...")
+        # main(self.pathIN.get(), self.vad_th.get(), \
+        #      self.prob_th.get(), self.cpus.get())
+
 
     def clicked_dir_button(self, *args):
         import tkinter.filedialog
@@ -95,10 +104,20 @@ class MainApplication(tk.Frame):
         self.btn_lbl.set("Click to change directory")
         self.run_btn.config(state="normal")
 
+    def count_processors(self):
+        import multiprocessing
+        import numpy as np
+        nop=multiprocessing.cpu_count()
+        print(str(int(nop)) + 'cpus found')
+        return np.max([1,nop-1])
+
 if __name__ == "__main__":
+    global vpathIN, vvad_th,vprob_th, vcpus 
     root = tk.Tk()
     root.title("Chainsaw detection software")
-    MainApplication(root)#.pack(side="top", fill="both", expand=True)
+    MainApplication(root)
     root.mainloop()
-
+    print("Starting execution. Please wait...")
+    main(vpathIN, vvad_th, \
+         vprob_th, vcpus)
     

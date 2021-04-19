@@ -61,10 +61,6 @@ def main(pathIN, VADthresh, probThresh, nopREQ):
                     
                 Nsegm=timeBorders.size    
                 
-                def extract_features_redir(wavName,outputDataPath,timeBorders,segmIdx,VADthresh):
-                    extract_features(wavName,outputDataPath,timeBorders,segmIdx,VADthresh)
-                    return
-
                 for segmIdx in range(Nsegm-1): #range(0,Nsegm-1):       
                     pool.apply_async(extract_features, args=(wavName,outputDataPath,timeBorders,segmIdx,VADthresh))
 
