@@ -10,6 +10,8 @@ import tkinter.ttk  as ttk
 from main import main
 from tkinter import E, W, N, S
 
+citation = 'N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open access system for long-range chainsaw sound detection" submitted for publication in EUSIPCO 2021.'
+
 
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -27,7 +29,7 @@ class MainApplication(tk.Frame):
         self.vad_th.set(0.078)
         self.run_btn_text = tk.StringVar()
         self.run_btn_text.set("Run\n(Please select a directory)")
-        self.fpos = [1, 3, 6]
+        self.fpos = [1, 3, 6, 8]
         
 
         self.btn_lbl.set("Click to choose directory with target .wav files")
@@ -86,6 +88,25 @@ class MainApplication(tk.Frame):
         command=self.run_main, state=tk.DISABLED)
         self.run_btn.grid(row=0, column=0, padx=(10), pady=10)
 
+        cite_frame = ttk.Labelframe(parent, text='Cite')
+        cite_frame.grid(row=self.fpos[3], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+        
+        cite_txt = 'If you find any of this library useful for your research please cite as:'
+        cite_lbl = tk.Label(cite_frame, text = f"{cite_txt}\n\n{citation}", wraplength=350, justify='left')
+        cite_lbl.grid(row=0, column=0, padx=(10), pady=10)
+        copy_btn = tk.Button(cite_frame, text = "Copy to clipboard", command=self.copy_citation)
+        copy_btn.grid(row=3, column=2, padx=(10), pady=10)
+        self.copied_lbl_txt = tk.StringVar()
+        copied_lbl = tk.Label(cite_frame, textvariable = self.copied_lbl_txt)
+        copied_lbl.grid(row=4, column=2, padx=(10), pady=10)
+        
+
+    def copy_citation(self):
+        self.parent.clipboard_clear()
+        self.parent.clipboard_append(citation)
+        self.parent.update() # the text will stay there after the window is closed
+        self.copied_lbl_txt.set("(Copied!)")
+        
     def run_main(self):
         # from main import main
         global vpathIN, vvad_th,vprob_th, vcpus 
