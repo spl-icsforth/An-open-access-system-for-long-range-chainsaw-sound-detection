@@ -5,6 +5,7 @@ sys.path.append("./functions")
 
 import pdb
 import tkinter as tk
+import tkinter.ttk  as ttk
 
 from main import main
 from tkinter import E, W, N, S
@@ -24,18 +25,24 @@ class MainApplication(tk.Frame):
         self.cpus.set(6)
         self.vad_th = tk.DoubleVar()
         self.vad_th.set(0.078)
+        self.run_btn_text = tk.StringVar()
+        self.run_btn_text.set("Run\n(Please select a directory)")
+        self.fpos = [1, 3, 6]
         
 
         self.btn_lbl.set("Click to choose directory with target .wav files")
-        dir_frame = tk.Frame(parent)
-        dir_frame.grid(row=1, column=0, columnspan=3, sticky=E+W+N+S)        
+        dir_frame = ttk.LabelFrame(parent, text='Target directory')
+        #dir_frame = tk.Frame(parent)
+        dir_frame.grid(row=self.fpos[0], column=1, columnspan=3)        
         self.dir_lbl_text.set(f"Directory chosen: {self.pathIN.get()}")
-        dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=500, justify='left')
+        dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=350, justify='left')
         dir_lbl.grid(row=0, column=0, padx=(10), pady=10)
         dir_btn = tk.Button(dir_frame, textvariable = self.btn_lbl, command=self.clicked_dir_button)
         dir_btn.grid(row=0, column=1, padx=(10), pady=10)
 
-        vad_frame = tk.Frame(parent)
+        pf = ttk.Labelframe(parent, text='Parameters')
+        pf.grid(row=self.fpos[1], column=0, columnspan=3, sticky=E+W+N+S)        
+        vad_frame = tk.Frame(pf)
         vad_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take values between 0.078-0.15]")
         vad_lbl.grid(row=0, column=0, padx=(10), pady=10)
@@ -47,7 +54,7 @@ class MainApplication(tk.Frame):
         vad_slider.grid(row=0, column=2, padx=(10), pady=10, sticky='NSEW')
 
 
-        prob_frame = tk.Frame(parent)
+        prob_frame = tk.Frame(pf)
         prob_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         prob_lbl = tk.Label(prob_frame, text = f"Probability threshold chosen: \n[Can take value between 0-1]")
         prob_lbl.grid(row=0, column=0, padx=(10), pady=10,sticky=E+W+N+S)
@@ -59,7 +66,7 @@ class MainApplication(tk.Frame):
         prob_slider.grid(row=0, column=2, padx=(10), pady=10)
 
         max_cpus = self.count_processors()
-        cpu_frame = tk.Frame(parent)
+        cpu_frame = tk.Frame(pf)
         cpu_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         cpu_lbl = tk.Label(cpu_frame, text = f"Number of CPU units employed:")
         cpu_lbl.grid(row=0, column=0, padx=(10), pady=10)
@@ -70,10 +77,12 @@ class MainApplication(tk.Frame):
                     orient=tk.HORIZONTAL, variable = self.cpus)
         cpu_slider.grid(row=0, column=2, padx=(10), pady=10)
 
+        # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=0, row=1, rowspan=4, sticky='ew')
+        # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=,0 row=1, rowspan=4, sticky='ew')
 
         ok_frame = tk.Frame(parent)
-        ok_frame.grid(row=5, column=0, columnspan=4, padx=10, pady=10, sticky=E+W+N+S)
-        self.run_btn = tk.Button(parent, text = 'Run', 
+        ok_frame.grid(row=self.fpos[2], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+        self.run_btn = tk.Button(ok_frame, textvariable = self.run_btn_text, 
         command=self.run_main, state=tk.DISABLED)
         self.run_btn.grid(row=0, column=0, padx=(10), pady=10)
 
@@ -102,6 +111,7 @@ class MainApplication(tk.Frame):
         # if len(ch_txt)>width: ch_txt = f"{ch_txt[:begin]}...{ch_txt[-(width-begin-3):]}"
         self.dir_lbl_text.set(f"Directory chosen: {ch_txt}")          
         self.btn_lbl.set("Click to change directory")
+        self.run_btn_text.set("Run")
         self.run_btn.config(state="normal")
 
     def count_processors(self):
@@ -111,11 +121,19 @@ class MainApplication(tk.Frame):
         print(str(int(nop)) + 'cpus found')
         return np.max([1,nop-1])
 
+    def on_closing():
+        import tkinter.messagebox
+        if tkinter.messagebox.askokcancel("Quit", "Do you want to quit?"):
+            root.destroy()
+            print('Thank you for using our tool!')
+            exit()
+
 if __name__ == "__main__":
     global vpathIN, vvad_th,vprob_th, vcpus 
     root = tk.Tk()
-    root.title("Chainsaw detection software")
+    root.title("Chainsaw detection (GUI version)")
     MainApplication(root)
+    root.protocol("WM_DELETE_WINDOW", MainApplication.on_closing)
     root.mainloop()
     print("Starting execution. Please wait...")
     main(vpathIN, vvad_th, \
