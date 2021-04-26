@@ -19,6 +19,8 @@ class MainApplication(tk.Frame):
         self.parent = parent
         self.pathIN = tk.StringVar() 
         self.pathIN.set("[No directory selected]")
+        self.model = tk.StringVar()
+        self.model.set("pcen_rnn4_cl2_RMED_allARUs_run0.hdf5")
         self.btn_lbl = tk.StringVar()
         self.dir_lbl_text = tk.StringVar()
         self.prob_th = tk.DoubleVar()
@@ -29,7 +31,7 @@ class MainApplication(tk.Frame):
         self.vad_th.set(0.078)
         self.run_btn_text = tk.StringVar()
         self.run_btn_text.set("Run\n(Please select a directory)")
-        self.fpos = [1, 3, 6, 8]
+        self.fpos = [1, 3, 7, 9]
         
 
         self.btn_lbl.set("Click to choose directory with target .wav files")
@@ -42,10 +44,22 @@ class MainApplication(tk.Frame):
         dir_btn = tk.Button(dir_frame, textvariable = self.btn_lbl, command=self.clicked_dir_button)
         dir_btn.grid(row=0, column=1, padx=(10), pady=10)
 
+        
         pf = ttk.Labelframe(parent, text='Parameters')
         pf.grid(row=self.fpos[1], column=0, columnspan=3, sticky=E+W+N+S)        
+        
+
+        modelslist = [model for model in os.listdir("./models/") if model.endswith('.hdf5')]
+#        modelslist = [glob.glob("../models/*.hdf5")]
+        model_frame = tk.Frame(pf)
+        model_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        model_lbl = tk.Label(model_frame, text = f"Select model for classification:")
+        model_lbl.grid(row=0, column=0, padx=(10), pady=10)
+        model_menu = ttk.Combobox(model_frame, values=modelslist, state='readonly', textvariable = self.model)
+        model_menu.grid(row=0, column=2, columnspan=1)
+        
         vad_frame = tk.Frame(pf)
-        vad_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        vad_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take values between 0.078-0.15]")
         vad_lbl.grid(row=0, column=0, padx=(10), pady=10)
         vad_textbox = tk.Entry(vad_frame, textvariable=self.vad_th)
@@ -57,7 +71,7 @@ class MainApplication(tk.Frame):
 
 
         prob_frame = tk.Frame(pf)
-        prob_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        prob_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         prob_lbl = tk.Label(prob_frame, text = f"Probability threshold chosen: \n[Can take value between 0-1]")
         prob_lbl.grid(row=0, column=0, padx=(10), pady=10,sticky=E+W+N+S)
         prob_textbox = tk.Entry(prob_frame, textvariable=self.prob_th)
@@ -69,7 +83,7 @@ class MainApplication(tk.Frame):
 
         max_cpus = self.count_processors()
         cpu_frame = tk.Frame(pf)
-        cpu_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        cpu_frame.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         cpu_lbl = tk.Label(cpu_frame, text = f"Number of CPU units employed:")
         cpu_lbl.grid(row=0, column=0, padx=(10), pady=10)
         cpu_textbox = tk.Entry(cpu_frame, textvariable=self.cpus)
@@ -109,11 +123,12 @@ class MainApplication(tk.Frame):
         
     def run_main(self):
         # from main import main
-        global vpathIN, vvad_th,vprob_th, vcpus 
+        global vpathIN, vvad_th,vprob_th, vcpus , model
         vpathIN = self.pathIN.get()
         vvad_th = self.vad_th.get()
         vprob_th = self.prob_th.get()
         vcpus = self.cpus.get()
+        model = self.model.get()
         self.parent.destroy()
         # print("Starting execution. Please wait...")
         # main(self.pathIN.get(), self.vad_th.get(), \
@@ -150,7 +165,7 @@ class MainApplication(tk.Frame):
             exit()
 
 if __name__ == "__main__":
-    global vpathIN, vvad_th,vprob_th, vcpus 
+    global vpathIN, vvad_th,vprob_th, vcpus , model
     root = tk.Tk()
     root.title("Chainsaw detection (GUI version)")
     MainApplication(root)
@@ -158,5 +173,5 @@ if __name__ == "__main__":
     root.mainloop()
     print("Starting execution. Please wait...")
     main(vpathIN, vvad_th, \
-         vprob_th, vcpus)
+         vprob_th, vcpus, model=model)
     

@@ -7,7 +7,7 @@ import multiprocessing
 from extract_pcen_feature import extract_pcen_feature as extract_features
 from classify_features import classify_features 
 
-def main(pathIN, VADthresh, probThresh, nopREQ):                    
+def main(pathIN, VADthresh, probThresh, nopREQ, model):                    
         #%% Parameters
         maxDur=400 #in seconds
         nop=multiprocessing.cpu_count()
@@ -34,7 +34,9 @@ def main(pathIN, VADthresh, probThresh, nopREQ):
         wavFileNames=[]
         
     #%% Specify classicication model and number of classes   
-        modelfileName='pcen_rnn4_cl2_RMED_allARUs_run0.hdf5';
+        # modelfileName ='pcen_rnn4_cl2_RMED_allARUs_run0.hdf5';
+        modelfileName = model
+
         Nclasses=2 
          
     # %%
