@@ -263,7 +263,7 @@ class MainApplication(tk.Frame):
         import multiprocessing
         import numpy as np
         nop=multiprocessing.cpu_count()
-        print(str(int(nop)) + 'cpus found')
+        print(str(int(nop)) + ' cpus found')
         return nop
 
     def on_closing():
