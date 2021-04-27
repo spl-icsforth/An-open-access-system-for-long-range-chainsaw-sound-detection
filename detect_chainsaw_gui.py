@@ -65,7 +65,7 @@ class CollapsiblePane(ttk.Frame):
         self._separator = ttk.Separator(self, orient ="horizontal")
         self._separator.grid(row = 0, column = 1, sticky ="we")
 
-        self.frame = ttk.Frame(self)
+        self.frame = ttk.LabelFrame(self)
 
         # This will call activate function of class
         self._activate()
@@ -112,7 +112,7 @@ class MainApplication(tk.Frame):
         self.run_btn_text = tk.StringVar()
         self.run_btn_text.set("Run\n(Please select a directory)")
         self.fpos = [1, 3, 7, 9]
-        
+        self.parchoice = tk.IntVar()
 
 
         self.btn_lbl.set("Click to choose directory with target .wav files")
@@ -130,7 +130,7 @@ class MainApplication(tk.Frame):
         #cpane.grid(row = 0, column = 0)
         pf = cpane.frame
 #        pf = ttk.Labelframe(parent, text='Parameters')
-        cpane.grid(row=self.fpos[1], column=0, columnspan=3, sticky=E+W+N+S)        
+        cpane.grid(row=self.fpos[1], column=0, columnspan=3,  padx=(20), pady=10, sticky=E+W+N+S)        
         
 
         modelslist = [model for model in os.listdir("./models/") if model.endswith('.hdf5')]
@@ -165,26 +165,42 @@ class MainApplication(tk.Frame):
                     orient=tk.HORIZONTAL, variable = self.prob_th)
         prob_slider.grid(row=0, column=2, padx=(10), pady=10)
 
-        max_cpus = self.count_processors()
+#####################################################################################
+        # max_cpus = self.count_processors()
+        # cpu_frame = tk.Frame(pf)
+        # cpu_frame.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+        # cpu_lbl = tk.Label(cpu_frame, text = f"Number of CPU units employed:")
+        # cpu_lbl.grid(row=0, column=0, padx=(10), pady=10)
+        # cpu_textbox = tk.Entry(cpu_frame, textvariable=self.cpus)
+        # cpu_textbox.grid(row=0, column=1, padx=(10), pady=10)
+        # cpu_slider = tk.Scale(cpu_frame, 
+        #             from_=1,to=max_cpus, resolution = 1, 
+        #             orient=tk.HORIZONTAL, variable = self.cpus)
+        # cpu_slider.grid(row=0, column=2, padx=(10), pady=10)
+#####################################################################################
+        
         cpu_frame = tk.Frame(pf)
         cpu_frame.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        cpu_lbl = tk.Label(cpu_frame, text = f"Number of CPU units employed:")
+        cpu_lbl = tk.Label(cpu_frame, text = f"Parallelization:")
         cpu_lbl.grid(row=0, column=0, padx=(10), pady=10)
-        cpu_textbox = tk.Entry(cpu_frame, textvariable=self.cpus)
-        cpu_textbox.grid(row=0, column=1, padx=(10), pady=10)
-        cpu_slider = tk.Scale(cpu_frame, 
-                    from_=1,to=max_cpus, resolution = 1, 
-                    orient=tk.HORIZONTAL, variable = self.cpus)
-        cpu_slider.grid(row=0, column=2, padx=(10), pady=10)
+        cpu_radio0 = tk.Radiobutton (cpu_frame, text="No", variable=self.parchoice, value=0, command=self.parse_cpu_radio)
+        cpu_radio1 = tk.Radiobutton (cpu_frame, text="Low", variable=self.parchoice, value=1, command=self.parse_cpu_radio)
+        cpu_radio2 = tk.Radiobutton (cpu_frame, text="Mid", variable=self.parchoice, value=2, command=self.parse_cpu_radio)
+        cpu_radio3 = tk.Radiobutton (cpu_frame, text="Full", variable=self.parchoice, value=3, command=self.parse_cpu_radio)
+        cpu_radio0.grid(row=0, column=2, padx=(10), pady=10)
+        cpu_radio1.grid(row=0, column=3, padx=(10), pady=10)
+        cpu_radio2.grid(row=0, column=4, padx=(10), pady=10)
+        cpu_radio3.grid(row=0, column=5, padx=(10), pady=10)
 
         # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=0, row=1, rowspan=4, sticky='ew')
         # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=,0 row=1, rowspan=4, sticky='ew')
 
-        ok_frame = tk.Frame(parent)
-        ok_frame.grid(row=self.fpos[2], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+        ok_frame = ttk.LabelFrame(parent, text = None)
+        ok_frame.grid(row=self.fpos[2], column=2,  padx=10, pady=10, sticky=W+N+S)
         self.run_btn = tk.Button(ok_frame, textvariable = self.run_btn_text, 
         command=self.run_main, state=tk.DISABLED)
-        self.run_btn.grid(row=0, column=0, padx=(10), pady=10)
+        self.run_btn.grid(padx=180, pady=10)#row=0, column=0, sticky = E+W+N+S)
+        #ttk.Separator(parent, orient=tk.HORIZONTAL).grid(column=0, row=self.fpos[2]+1, columnspan=4, sticky='ew')
 
         cite_frame = ttk.Labelframe(parent, text='Cite')
         cite_frame.grid(row=self.fpos[3], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
@@ -198,6 +214,15 @@ class MainApplication(tk.Frame):
         copied_lbl = tk.Label(cite_frame, textvariable = self.copied_lbl_txt)
         copied_lbl.grid(row=4, column=2, padx=(10), pady=10)
         
+
+    def parse_cpu_radio(self):
+        max_cpus = self.count_processors()
+        choice_list = [1, max_cpus//4, max_cpus//2, max_cpus-1]
+        # print(f"parchoice {self.parchoice.get()}, cpus = {self.cpus.get()}")
+        cpu_temp = choice_list[self.parchoice.get()]
+        self.cpus.set(max([1, cpu_temp]))
+        # print(f"parchoice {self.parchoice.get()}, cpus = {self.cpus.get()}")
+
 
     def copy_citation(self):
         self.parent.clipboard_clear()
@@ -225,7 +250,7 @@ class MainApplication(tk.Frame):
         initialdir=os.getcwd(), 
         title='Please select the directory containing the target .wav files.')
         if newdir: self.pathIN.set(newdir)
-        print(newdir)
+        print(f"Directory chosen: {newdir}")
         ch_txt = self.pathIN.get()
         # width = 50; begin = 8;
         # if len(ch_txt)>width: ch_txt = f"{ch_txt[:begin]}...{ch_txt[-(width-begin-3):]}"
@@ -239,7 +264,7 @@ class MainApplication(tk.Frame):
         import numpy as np
         nop=multiprocessing.cpu_count()
         print(str(int(nop)) + 'cpus found')
-        return np.max([1,nop-1])
+        return nop
 
     def on_closing():
         import tkinter.messagebox
