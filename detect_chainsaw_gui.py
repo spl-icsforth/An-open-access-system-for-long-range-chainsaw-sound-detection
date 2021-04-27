@@ -13,6 +13,25 @@ from tkinter import E, W, N, S
 citation = 'N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open access system for long-range chainsaw sound detection" submitted for publication in EUSIPCO 2021.'
 
 
+
+# Importing Collapsible Pane class that we have
+# created in separate file
+from cpane import CollapsiblePane as cp
+
+# Making root window or parent window
+#root = Tk()
+#root.geometry('200x200')
+
+# Creating Object of Collapsible Pane Container
+# If we do not pass these strings in
+# parameter the the defalt strings will appear
+# on button that were, expand >>, collapse <<
+
+# Button and checkbutton, these will
+# appear in collapsible pane container
+
+
+
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
@@ -34,6 +53,7 @@ class MainApplication(tk.Frame):
         self.fpos = [1, 3, 7, 9]
         
 
+
         self.btn_lbl.set("Click to choose directory with target .wav files")
         dir_frame = ttk.LabelFrame(parent, text='Target directory')
         #dir_frame = tk.Frame(parent)
@@ -44,9 +64,11 @@ class MainApplication(tk.Frame):
         dir_btn = tk.Button(dir_frame, textvariable = self.btn_lbl, command=self.clicked_dir_button)
         dir_btn.grid(row=0, column=1, padx=(10), pady=10)
 
-        
-        pf = ttk.Labelframe(parent, text='Parameters')
-        pf.grid(row=self.fpos[1], column=0, columnspan=3, sticky=E+W+N+S)        
+        cpane = cp(parent, 'Hide advanced parameters', 'Show advanced parameters')
+        #cpane.grid(row = 0, column = 0)
+        pf = cpane.frame
+#        pf = ttk.Labelframe(parent, text='Parameters')
+        cpane.grid(row=self.fpos[1], column=0, columnspan=3, sticky=E+W+N+S)        
         
 
         modelslist = [model for model in os.listdir("./models/") if model.endswith('.hdf5')]
@@ -109,7 +131,7 @@ class MainApplication(tk.Frame):
         cite_lbl = tk.Label(cite_frame, text = f"{cite_txt}\n\n{citation}", wraplength=350, justify='left')
         cite_lbl.grid(row=0, column=0, padx=(10), pady=10)
         copy_btn = tk.Button(cite_frame, text = "Copy to clipboard", command=self.copy_citation)
-        copy_btn.grid(row=3, column=2, padx=(10), pady=10)
+        copy_btn.grid(row=0, column=2, padx=(10), pady=10)
         self.copied_lbl_txt = tk.StringVar()
         copied_lbl = tk.Label(cite_frame, textvariable = self.copied_lbl_txt)
         copied_lbl.grid(row=4, column=2, padx=(10), pady=10)
