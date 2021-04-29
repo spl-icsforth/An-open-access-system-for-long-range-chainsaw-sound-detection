@@ -7,12 +7,12 @@ import multiprocessing
 from extract_pcen_feature import extract_pcen_feature as extract_features
 from classify_features import classify_features 
 
-def main(pathIN, VADthresh, probThresh, nopREQ, model):                    
+def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn4_cl2_RMED_allARUs_run0.hdf5'):                    
         #%% Parameters
         maxDur=400 #in seconds
         nop=multiprocessing.cpu_count()
         print(str(int(nop)) + 'cpus found')
-        nopREC=np.max([1,nop-1])
+        nopREC=np.max([1,nop])
         if nopREQ<nopREC:
             nopUSE=nopREQ
         else:
@@ -72,4 +72,26 @@ def main(pathIN, VADthresh, probThresh, nopREQ, model):
             else:
                 print(wavName.split(os.sep)[-1] + ' has a sampling rate different than 8000  Hz, will not process this audio file ')
      #%% Run classifier and extract positive .wav segments       
-        classify_features(outputDataPath,f"models/{modelfileName}",Nclasses,probThresh)    
+        classify_features(outputDataPath,f"models/{modelfileName}",Nclasses,probThresh)
+        # if del_temp:
+        #     ftrs =  inputWavPath + '/' + 'Features'
+        #     if os.path.exists(ftrs):
+        #         files = glob.glob(ftrs+'/*')
+        #         for f in files:
+        #             os.remove(f)
+
+        if del_temp:
+            import shutil
+            ftrs =  inputWavPath + '/' + 'Features'
+            if os.path.exists(ftrs):
+                for filename in os.listdir(ftrs):
+                    file_path = os.path.join(ftrs, filename)
+                    try:
+                        if os.path.isfile(file_path) or os.path.islink(file_path):
+                            os.unlink(file_path)
+                        elif os.path.isdir(file_path):
+                            shutil.rmtree(file_path)
+                    except Exception as e:
+                        print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+                

@@ -111,37 +111,42 @@ class MainApplication(tk.Frame):
         self.vad_th.set(0.078)
         self.run_btn_text = tk.StringVar()
         self.run_btn_text.set("Run\n(Please select a directory)")
-        self.fpos = [1, 3, 7, 9]
+        self.fpos = {'del': 2, 'dir': 1, 'params': 4, 'ok': 8, 'cite': 10}
         self.parchoice = tk.IntVar()
+        self.del_temp = tk.BooleanVar()
+        self.del_temp.set(True)
 
 
         self.btn_lbl.set("Click to choose directory with target .wav files")
         dir_frame = ttk.LabelFrame(parent, text='Target directory')
         #dir_frame = tk.Frame(parent)
-        dir_frame.grid(row=self.fpos[0], column=1, columnspan=3)        
+        dir_frame.grid(row=self.fpos['dir'], column=1, columnspan=3)        
         self.dir_lbl_text.set(f"Directory chosen: {self.pathIN.get()}")
         dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=350, justify='left')
         dir_lbl.grid(row=0, column=0, padx=(10), pady=10)
         dir_btn = tk.Button(dir_frame, textvariable = self.btn_lbl, command=self.clicked_dir_button)
         dir_btn.grid(row=0, column=1, padx=(10), pady=10)
 
+        del_checkbox = tk.Checkbutton(parent, text='Delete intermediate files ("Features" folder)',variable=self.del_temp, onvalue=True, offvalue=False)
+        del_checkbox.grid(row=self.fpos['del'], column=0, columnspan=3,  padx=(10), pady=10, sticky=E+W+N+S)
+
         cp = CollapsiblePane
         cpane = cp(parent, 'Hide advanced parameters 🔼', 'Show advanced parameters 🔽')
         #cpane.grid(row = 0, column = 0)
         pf = cpane.frame
 #        pf = ttk.Labelframe(parent, text='Parameters')
-        cpane.grid(row=self.fpos[1], column=0, columnspan=3,  padx=(20), pady=10, sticky=E+W+N+S)        
+        cpane.grid(row=self.fpos['params'], column=0, columnspan=3,  padx=(20), pady=10, sticky=E+W+N+S)        
         
-
-        modelslist = [model for model in os.listdir("./models/") if model.endswith('.hdf5')]
-#        modelslist = [glob.glob("../models/*.hdf5")]
-        model_frame = tk.Frame(pf)
-        model_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        model_lbl = tk.Label(model_frame, text = f"Select model for classification:")
-        model_lbl.grid(row=0, column=0, padx=(10), pady=10)
-        model_menu = ttk.Combobox(model_frame, values=modelslist, state='readonly', textvariable = self.model)
-        model_menu.grid(row=0, column=2, columnspan=1)
-        
+####################################### MODEL SELECTION ########################################
+#        modelslist = [model for model in os.listdir("./models/") if model.endswith('.hdf5')]
+####        modelslist = [glob.glob("../models/*.hdf5")]
+#        model_frame = tk.Frame(pf)
+#        model_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
+#        model_lbl = tk.Label(model_frame, text = f"Select model for classification:")
+#        model_lbl.grid(row=0, column=0, padx=(10), pady=10)
+#        model_menu = ttk.Combobox(model_frame, values=modelslist, state='readonly', textvariable = self.model)
+#        model_menu.grid(row=0, column=2, columnspan=1)
+###############################################################################################        
         vad_frame = tk.Frame(pf)
         vad_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
         vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take values between 0.078-0.15]")
@@ -196,14 +201,14 @@ class MainApplication(tk.Frame):
         # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=,0 row=1, rowspan=4, sticky='ew')
 
         ok_frame = ttk.LabelFrame(parent, text = None)
-        ok_frame.grid(row=self.fpos[2], column=2,  padx=10, pady=10, sticky=W+N+S)
+        ok_frame.grid(row=self.fpos['ok'], column=2,  padx=10, pady=10, sticky=W+N+S)
         self.run_btn = tk.Button(ok_frame, textvariable = self.run_btn_text, 
         command=self.run_main, state=tk.DISABLED)
         self.run_btn.grid(padx=180, pady=10)#row=0, column=0, sticky = E+W+N+S)
         #ttk.Separator(parent, orient=tk.HORIZONTAL).grid(column=0, row=self.fpos[2]+1, columnspan=4, sticky='ew')
 
         cite_frame = ttk.Labelframe(parent, text='Cite')
-        cite_frame.grid(row=self.fpos[3], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+        cite_frame.grid(row=self.fpos['cite'], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
         
         cite_txt = 'If you find any of this library useful for your research please cite as:'
         cite_lbl = tk.Label(cite_frame, text = f"{cite_txt}\n\n{citation}", wraplength=350, justify='left')
@@ -232,12 +237,13 @@ class MainApplication(tk.Frame):
         
     def run_main(self):
         # from main import main
-        global vpathIN, vvad_th,vprob_th, vcpus , model
+        global vpathIN, vvad_th,vprob_th, vcpus , model, del_temp
         vpathIN = self.pathIN.get()
         vvad_th = self.vad_th.get()
         vprob_th = self.prob_th.get()
         vcpus = self.cpus.get()
         model = self.model.get()
+        del_temp = self.del_temp
         self.parent.destroy()
         # print("Starting execution. Please wait...")
         # main(self.pathIN.get(), self.vad_th.get(), \
@@ -274,7 +280,7 @@ class MainApplication(tk.Frame):
             exit()
 
 if __name__ == "__main__":
-    global vpathIN, vvad_th,vprob_th, vcpus , model
+    global vpathIN, vvad_th,vprob_th, vcpus , model, del_temp
     root = tk.Tk()
     root.title("Chainsaw detection (GUI version)")
     MainApplication(root)
@@ -284,5 +290,5 @@ if __name__ == "__main__":
     root.mainloop()
     print("Starting execution. Please wait...")
     main(vpathIN, vvad_th, \
-         vprob_th, vcpus, model=model)
+         vprob_th, vcpus, del_temp = True, model=model)
     
