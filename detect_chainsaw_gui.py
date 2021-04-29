@@ -120,7 +120,7 @@ class MainApplication(tk.Frame):
         self.btn_lbl.set("Click to choose directory with target .wav files")
         dir_frame = ttk.LabelFrame(parent, text='Target directory')
         #dir_frame = tk.Frame(parent)
-        dir_frame.grid(row=self.fpos['dir'], column=1, columnspan=3)        
+        dir_frame.grid(row=self.fpos['dir'], pady=10, column=1, columnspan=3)        
         self.dir_lbl_text.set(f"Directory chosen: {self.pathIN.get()}")
         dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=350, justify='left')
         dir_lbl.grid(row=0, column=0, padx=(10), pady=10)
@@ -149,7 +149,7 @@ class MainApplication(tk.Frame):
 ###############################################################################################        
         vad_frame = tk.Frame(pf)
         vad_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take values between 0.078-0.15]")
+        vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take any value between 0.078-0.15]")
         vad_lbl.grid(row=0, column=0, padx=(10), pady=10)
         vad_textbox = tk.Entry(vad_frame, textvariable=self.vad_th)
         vad_textbox.grid(row=0, column=1, padx=(10), pady=10)
@@ -161,7 +161,7 @@ class MainApplication(tk.Frame):
 
         prob_frame = tk.Frame(pf)
         prob_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        prob_lbl = tk.Label(prob_frame, text = f"Probability threshold chosen: \n[Can take value between 0-1]")
+        prob_lbl = tk.Label(prob_frame, text = f"Probability threshold chosen: \n[Can take any value between 0-1]")
         prob_lbl.grid(row=0, column=0, padx=(10), pady=10,sticky=E+W+N+S)
         prob_textbox = tk.Entry(prob_frame, textvariable=self.prob_th)
         prob_textbox.grid(row=0, column=1, padx=(10), pady=10)
@@ -207,8 +207,14 @@ class MainApplication(tk.Frame):
         self.run_btn.grid(padx=180, pady=10)#row=0, column=0, sticky = E+W+N+S)
         #ttk.Separator(parent, orient=tk.HORIZONTAL).grid(column=0, row=self.fpos[2]+1, columnspan=4, sticky='ew')
 
-        cite_frame = ttk.Labelframe(parent, text='Cite')
-        cite_frame.grid(row=self.fpos['cite'], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+        citepane = cp(parent, 'Hide citation 🔼', 'Show citation 🔽')
+        #cpane.grid(row = 0, column = 0)
+        cite_frame = citepane.frame
+#       
+
+        # cite_frame = ttk.Labelframe(parent, text='Cite')
+        # cite_frame.grid(row=self.fpos['cite'], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+        citepane.grid(row=self.fpos['cite'], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
         
         cite_txt = 'If you find any of this library useful for your research please cite as:'
         cite_lbl = tk.Label(cite_frame, text = f"{cite_txt}\n\n{citation}", wraplength=350, justify='left')
@@ -255,15 +261,16 @@ class MainApplication(tk.Frame):
         newdir = tkinter.filedialog.askdirectory(parent=self.parent, 
         initialdir=os.getcwd(), 
         title='Please select the directory containing the target .wav files.')
-        if newdir: self.pathIN.set(newdir)
-        print(f"Directory chosen: {newdir}")
-        ch_txt = self.pathIN.get()
-        # width = 50; begin = 8;
-        # if len(ch_txt)>width: ch_txt = f"{ch_txt[:begin]}...{ch_txt[-(width-begin-3):]}"
-        self.dir_lbl_text.set(f"Directory chosen: {ch_txt}")          
-        self.btn_lbl.set("Click to change directory")
-        self.run_btn_text.set("Run")
-        self.run_btn.config(state="normal")
+        if newdir: 
+        	self.pathIN.set(newdir)
+	        print(f"Directory chosen: {newdir}")
+	        ch_txt = self.pathIN.get()
+	        # width = 50; begin = 8;
+	        # if len(ch_txt)>width: ch_txt = f"{ch_txt[:begin]}...{ch_txt[-(width-begin-3):]}"
+	        self.dir_lbl_text.set(f"Directory chosen: {ch_txt}")          
+	        self.btn_lbl.set("Click to change directory")
+	        self.run_btn_text.set("Run")
+	        self.run_btn.config(state="normal")
 
     def count_processors(self):
         import multiprocessing
