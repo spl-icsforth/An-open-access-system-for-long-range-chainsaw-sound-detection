@@ -12,11 +12,6 @@ from tkinter import E, W, N, S
 
 citation = 'N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open access system for long-range chainsaw sound detection" submitted for publication in EUSIPCO 2021.'
 
-# Importing Collapsible Pane class that we have
-# created in separate file
-#from cpane import CollapsiblePane as cp
-
-
 
 class CollapsiblePane(ttk.Frame):
 # Implementation of Collapsible Pane container
@@ -104,11 +99,11 @@ class MainApplication(tk.Frame):
         self.btn_lbl = tk.StringVar()
         self.dir_lbl_text = tk.StringVar()
         self.prob_th = tk.DoubleVar()
-        self.prob_th.set(0.75)
+        self.prob_th.set(0.45)
         self.cpus = tk.IntVar()
-        self.cpus.set(6)
+        self.cpus.set(1)
         self.vad_th = tk.DoubleVar()
-        self.vad_th.set(0.078)
+        self.vad_th.set(0.08)
         self.run_btn_text = tk.StringVar()
         self.run_btn_text.set("Run\n(Please select a directory)")
         self.fpos = {'del': 2, 'dir': 1, 'params': 4, 'ok': 8, 'cite': 10}
@@ -117,15 +112,16 @@ class MainApplication(tk.Frame):
         self.del_temp.set(True)
 
 
-        self.btn_lbl.set("Click to choose directory with target .wav files")
+        self.btn_lbl.set("Click to select directory")
         dir_frame = ttk.LabelFrame(parent, text='Target directory')
-        #dir_frame = tk.Frame(parent)
-        dir_frame.grid(row=self.fpos['dir'], pady=10, column=1, columnspan=3)        
+        dir_frame.grid(row=self.fpos['dir'], padx=10, pady=10, column=1, columnspan=3)        
         self.dir_lbl_text.set(f"Directory chosen: {self.pathIN.get()}")
-        dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=350, justify='left')
-        dir_lbl.grid(row=0, column=0, padx=(10), pady=10)
+        dir_lbl = tk.Label(dir_frame, textvariable = self.dir_lbl_text, wraplength=300, justify='left')
+        dir_lbl.grid(row=0, column=0, padx=(10), pady=10, rowspan=2)
         dir_btn = tk.Button(dir_frame, textvariable = self.btn_lbl, command=self.clicked_dir_button)
         dir_btn.grid(row=0, column=1, padx=(10), pady=10)
+        self.dir_check_files_btn = tk.Button(dir_frame, text = "Check test files in folder", command=self.check_test_files, state=tk.DISABLED)
+        self.dir_check_files_btn.grid(row=2, column=1, padx=(10), pady=10)
 
         del_checkbox = tk.Checkbutton(parent, text='Delete intermediate files ("Features" folder)',variable=self.del_temp, onvalue=True, offvalue=False)
         del_checkbox.grid(row=self.fpos['del'], column=0, columnspan=3,  padx=(10), pady=10, sticky=E+W+N+S)
@@ -147,28 +143,26 @@ class MainApplication(tk.Frame):
 #        model_menu = ttk.Combobox(model_frame, values=modelslist, state='readonly', textvariable = self.model)
 #        model_menu.grid(row=0, column=2, columnspan=1)
 ###############################################################################################        
-        vad_frame = tk.Frame(pf)
-        vad_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        vad_lbl = tk.Label(vad_frame, text = f"VAD threshold chosen: \n[Can take any value between 0.078-0.15]")
-        vad_lbl.grid(row=0, column=0, padx=(10), pady=10)
-        vad_textbox = tk.Entry(vad_frame, textvariable=self.vad_th)
-        vad_textbox.grid(row=0, column=1, padx=(10), pady=10)
-        vad_slider = tk.Scale(vad_frame, 
+        params_row = {'vad':4, 'prob':7, 'cpu':10}
+
+        vad_lbl = tk.Label(pf, text = f"VAD threshold chosen: \n[Can take any value between 0.078-0.15]")
+        vad_lbl.grid(row=params_row['vad'], column=0, padx=(10), pady=10)
+        vad_textbox = tk.Entry(pf, textvariable=self.vad_th)
+        vad_textbox.grid(row=params_row['vad'], column=1, padx=(10), pady=10)
+        vad_slider = tk.Scale(pf, 
                     from_=0.078, to=0.15, resolution = 0.0001, 
                     orient=tk.HORIZONTAL, variable = self.vad_th)
-        vad_slider.grid(row=0, column=2, padx=(10), pady=10, sticky='NSEW')
+        vad_slider.grid(row=params_row['vad'], column=2, padx=(10), pady=10, sticky='NSEW')
 
 
-        prob_frame = tk.Frame(pf)
-        prob_frame.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        prob_lbl = tk.Label(prob_frame, text = f"Probability threshold chosen: \n[Can take any value between 0-1]")
-        prob_lbl.grid(row=0, column=0, padx=(10), pady=10,sticky=E+W+N+S)
-        prob_textbox = tk.Entry(prob_frame, textvariable=self.prob_th)
-        prob_textbox.grid(row=0, column=1, padx=(10), pady=10)
-        prob_slider = tk.Scale(prob_frame, 
+        prob_lbl = tk.Label(pf, text = f"Probability threshold chosen: \n[Can take any value between 0-1]")
+        prob_lbl.grid(row=params_row['prob'], column=0, padx=(10), pady=10,sticky=E+W+N+S)
+        prob_textbox = tk.Entry(pf, textvariable=self.prob_th)
+        prob_textbox.grid(row=params_row['prob'], column=1, padx=(10), pady=10)
+        prob_slider = tk.Scale(pf, 
                     from_=0, to=1, resolution = 0.01, 
                     orient=tk.HORIZONTAL, variable = self.prob_th)
-        prob_slider.grid(row=0, column=2, padx=(10), pady=10)
+        prob_slider.grid(row=params_row['prob'], column=2, padx=(10), pady=10)
 
 #####################################################################################
         # max_cpus = self.count_processors()
@@ -184,36 +178,29 @@ class MainApplication(tk.Frame):
         # cpu_slider.grid(row=0, column=2, padx=(10), pady=10)
 #####################################################################################
         
-        cpu_frame = tk.Frame(pf)
-        cpu_frame.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-        cpu_lbl = tk.Label(cpu_frame, text = f"Parallelization:")
-        cpu_lbl.grid(row=0, column=0, padx=(10), pady=10)
-        cpu_radio0 = tk.Radiobutton (cpu_frame, text="No", variable=self.parchoice, value=0, command=self.parse_cpu_radio)
-        cpu_radio1 = tk.Radiobutton (cpu_frame, text="Low", variable=self.parchoice, value=1, command=self.parse_cpu_radio)
-        cpu_radio2 = tk.Radiobutton (cpu_frame, text="Mid", variable=self.parchoice, value=2, command=self.parse_cpu_radio)
-        cpu_radio3 = tk.Radiobutton (cpu_frame, text="Full", variable=self.parchoice, value=3, command=self.parse_cpu_radio)
-        cpu_radio0.grid(row=0, column=2, padx=(10), pady=10)
-        cpu_radio1.grid(row=0, column=3, padx=(10), pady=10)
-        cpu_radio2.grid(row=0, column=4, padx=(10), pady=10)
-        cpu_radio3.grid(row=0, column=5, padx=(10), pady=10)
-
-        # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=0, row=1, rowspan=4, sticky='ew')
-        # tkinter.ttk.Separator(master, orient=VERTICAL).grid(column=,0 row=1, rowspan=4, sticky='ew')
+        cpu_lbl = tk.Label(pf, text = f"Parallelization:")
+        cpu_lbl.grid(row=params_row['cpu'], column=0, padx=(10), pady=10)
+        cpu_f = tk.Frame(pf)
+        cpu_f.grid(row=params_row['cpu'], column=1, pady=10, columnspan=2)
+        cpu_radio0 = tk.Radiobutton (cpu_f, text="No", variable=self.parchoice, value=0, command=self.parse_cpu_radio)
+        cpu_radio1 = tk.Radiobutton (cpu_f, text="Low", variable=self.parchoice, value=1, command=self.parse_cpu_radio)
+        cpu_radio2 = tk.Radiobutton (cpu_f, text="Mid", variable=self.parchoice, value=2, command=self.parse_cpu_radio)
+        cpu_radio3 = tk.Radiobutton (cpu_f, text="Full", variable=self.parchoice, value=3, command=self.parse_cpu_radio)
+        cpu_radio0.grid(row=params_row['cpu'], column=0)
+        cpu_radio1.grid(row=params_row['cpu'], column=1)
+        cpu_radio2.grid(row=params_row['cpu'], column=2)
+        cpu_radio3.grid(row=params_row['cpu'], column=3)
 
         ok_frame = ttk.LabelFrame(parent, text = None)
         ok_frame.grid(row=self.fpos['ok'], column=2,  padx=10, pady=10, sticky=W+N+S)
         self.run_btn = tk.Button(ok_frame, textvariable = self.run_btn_text, 
         command=self.run_main, state=tk.DISABLED)
         self.run_btn.grid(padx=180, pady=10)#row=0, column=0, sticky = E+W+N+S)
-        #ttk.Separator(parent, orient=tk.HORIZONTAL).grid(column=0, row=self.fpos[2]+1, columnspan=4, sticky='ew')
 
         citepane = cp(parent, 'Hide citation 🔼', 'Show citation 🔽')
-        #cpane.grid(row = 0, column = 0)
         cite_frame = citepane.frame
-#       
 
-        # cite_frame = ttk.Labelframe(parent, text='Cite')
-        # cite_frame.grid(row=self.fpos['cite'], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
+
         citepane.grid(row=self.fpos['cite'], column=2, columnspan=1, padx=10, pady=10, sticky=E+W+N+S)
         
         cite_txt = 'If you find any of this library useful for your research please cite as:'
@@ -271,6 +258,7 @@ class MainApplication(tk.Frame):
 	        self.btn_lbl.set("Click to change directory")
 	        self.run_btn_text.set("Run")
 	        self.run_btn.config(state="normal")
+	        self.dir_check_files_btn.config(state="normal")
 
     def count_processors(self):
         import multiprocessing
@@ -281,10 +269,29 @@ class MainApplication(tk.Frame):
 
     def on_closing():
         import tkinter.messagebox
+        import gc
         if tkinter.messagebox.askokcancel("Quit", "Do you want to quit?"):
             root.destroy()
             print('Thank you for using our tool!')
+            gc.collect()
             exit()
+
+    def check_test_files(self):      
+        import glob
+        	    # Toplevel object which will 
+	    # be treated as a new window
+        newWindow = tk.Toplevel(self.master)
+        path = self.pathIN.get()
+        newWindow.title(f"Test files in {path}")
+        files = [file.replace("\\", "/").split("/")[-1] for file in glob.glob(f"{path}/*.wav")]
+        if len(files)<1: files = "[No .wav files in this folder]"
+        else:
+	        files = '\n'.join(files)
+        text = tk.Text(newWindow)
+        text.pack()
+        text.insert(tk.END,files)
+        text.configure(state='disabled')	  	    
+
 
 if __name__ == "__main__":
     global vpathIN, vvad_th,vprob_th, vcpus , model, del_temp

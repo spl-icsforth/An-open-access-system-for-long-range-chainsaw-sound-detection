@@ -5,7 +5,8 @@ import librosa
 import glob
 import multiprocessing
 from extract_pcen_feature import extract_pcen_feature as extract_features
-from classify_features import classify_features 
+#from classify_features import classify_features 
+from classify_features_exp2raven import classify_features  
 
 def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn4_cl2_RMED_allARUs_run0.hdf5'):                    
         #%% Parameters
