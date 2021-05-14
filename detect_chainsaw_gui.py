@@ -95,7 +95,7 @@ class MainApplication(tk.Frame):
         self.pathIN = tk.StringVar() 
         self.pathIN.set("[No directory selected]")
         self.model = tk.StringVar()
-        self.model.set("pcen_rnn4_cl2_RMED_allARUs_run0.hdf5")
+        self.model.set("pcen_rnn4_cl2_RMED_allARUs_run0.hdf5 (default)")
         self.btn_lbl = tk.StringVar()
         self.dir_lbl_text = tk.StringVar()
         self.prob_th = tk.DoubleVar()
@@ -108,6 +108,7 @@ class MainApplication(tk.Frame):
         self.run_btn_text.set("Run\n(Please select a directory)")
         self.fpos = {'del': 2, 'dir': 1, 'params': 4, 'ok': 8, 'cite': 10}
         self.parchoice = tk.IntVar()
+        self.parchoice.set(2)
         self.del_temp = tk.BooleanVar()
         self.del_temp.set(True)
 
@@ -123,7 +124,7 @@ class MainApplication(tk.Frame):
         self.dir_check_files_btn = tk.Button(dir_frame, text = "Check test files in folder", command=self.check_test_files, state=tk.DISABLED)
         self.dir_check_files_btn.grid(row=2, column=1, padx=(10), pady=10)
 
-        del_checkbox = tk.Checkbutton(parent, text='Delete intermediate files ("Features" folder)',variable=self.del_temp, onvalue=True, offvalue=False)
+        del_checkbox = tk.Checkbutton(parent, text='Delete intermediate files ("features" folder)',variable=self.del_temp, onvalue=True, offvalue=False)
         del_checkbox.grid(row=self.fpos['del'], column=0, columnspan=3,  padx=(10), pady=10, sticky=E+W+N+S)
 
         cp = CollapsiblePane
@@ -133,17 +134,15 @@ class MainApplication(tk.Frame):
 #        pf = ttk.Labelframe(parent, text='Parameters')
         cpane.grid(row=self.fpos['params'], column=0, columnspan=3,  padx=(20), pady=10, sticky=E+W+N+S)        
         
-####################################### MODEL SELECTION ########################################
-#        modelslist = [model for model in os.listdir("./models/") if model.endswith('.hdf5')]
-####        modelslist = [glob.glob("../models/*.hdf5")]
-#        model_frame = tk.Frame(pf)
-#        model_frame.grid(row=2, column=0, columnspan=3, padx=10, pady=10, sticky=E+W+N+S)
-#        model_lbl = tk.Label(model_frame, text = f"Select model for classification:")
-#        model_lbl.grid(row=0, column=0, padx=(10), pady=10)
-#        model_menu = ttk.Combobox(model_frame, values=modelslist, state='readonly', textvariable = self.model)
-#        model_menu.grid(row=0, column=2, columnspan=1)
-###############################################################################################        
-        params_row = {'vad':4, 'prob':7, 'cpu':10}
+        params_row = {'mdl': 4, 'vad':5, 'prob':8, 'cpu':11}
+###################################### MODEL SELECTION ########################################
+        modelslist = [model.replace("pcen_rnn4_cl2_RMED_allARUs_run0.hdf5", "pcen_rnn4_cl2_RMED_allARUs_run0.hdf5 (default)") for model in os.listdir("./models/") if model.endswith('.hdf5')]
+###        modelslist = [glob.glob("../models/*.hdf5")]
+        model_lbl = tk.Label(pf, text = f"Select model for classification:")
+        model_lbl.grid(row=params_row['mdl'], column=0, padx=(10), pady=10)
+        model_menu = ttk.Combobox(pf, values=modelslist, state='readonly', textvariable = self.model, width=50)
+        model_menu.grid(row=params_row['mdl'], column=1, columnspan=2)
+##############################################################################################        
 
         vad_lbl = tk.Label(pf, text = f"VAD threshold chosen: \n[Can take any value between 0.078-0.15]")
         vad_lbl.grid(row=params_row['vad'], column=0, padx=(10), pady=10)
@@ -215,7 +214,7 @@ class MainApplication(tk.Frame):
 
     def parse_cpu_radio(self):
         max_cpus = self.count_processors()
-        choice_list = [1, max_cpus//4, max_cpus//2, max_cpus-1]
+        choice_list = [1, max_cpus//4, max_cpus//2, max_cpus]
         # print(f"parchoice {self.parchoice.get()}, cpus = {self.cpus.get()}")
         cpu_temp = choice_list[self.parchoice.get()]
         self.cpus.set(max([1, cpu_temp]))
@@ -235,7 +234,7 @@ class MainApplication(tk.Frame):
         vvad_th = self.vad_th.get()
         vprob_th = self.prob_th.get()
         vcpus = self.cpus.get()
-        model = self.model.get()
+        model = self.model.get().replace("pcen_rnn4_cl2_RMED_allARUs_run0.hdf5 (default)", "pcen_rnn4_cl2_RMED_allARUs_run0.hdf5") 
         del_temp = self.del_temp
         self.parent.destroy()
         # print("Starting execution. Please wait...")

@@ -5,8 +5,7 @@ import librosa
 import glob
 import multiprocessing
 from extract_pcen_feature import extract_pcen_feature as extract_features
-#from classify_features import classify_features 
-from classify_features_exp2raven import classify_features  
+from classify_features import classify_features 
 
 def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn4_cl2_RMED_allARUs_run0.hdf5'):                    
         #%% Parameters
@@ -83,16 +82,9 @@ def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn
 
         if del_temp:
             import shutil
-            ftrs =  inputWavPath + '/' + 'Features'
+            ftrs =  inputWavPath + '/' + 'features'
             if os.path.exists(ftrs):
-                for filename in os.listdir(ftrs):
-                    file_path = os.path.join(ftrs, filename)
-                    try:
-                        if os.path.isfile(file_path) or os.path.islink(file_path):
-                            os.unlink(file_path)
-                        elif os.path.isdir(file_path):
-                            shutil.rmtree(file_path)
-                    except Exception as e:
-                        print('Failed to delete %s. Reason: %s' % (file_path, e))
-
-                
+                try:
+                    shutil.rmtree(ftrs)
+                except Exception as e:
+                    print('Failed to delete %s. Reason: %s' % (file_path, e))
