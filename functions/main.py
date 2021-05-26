@@ -7,7 +7,7 @@ import multiprocessing
 from extract_pcen_feature import extract_pcen_feature as extract_features
 from classify_features import classify_features 
 
-def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn4_cl2_RMED_allARUs_run0.hdf5'):                    
+def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn4_cl2_RMED_allARUs_run0.hdf5', recursive=False):                    
         #%% Parameters
         maxDur=400 #in seconds
         nop=multiprocessing.cpu_count()
@@ -48,7 +48,10 @@ def main(pathIN, VADthresh, probThresh, nopREQ, del_temp=True, model = 'pcen_rnn
 
     #%% do the job  
         folder_with_recordings=(inputWavPath + '/*.wav')
-        for wavName in glob.glob(folder_with_recordings):
+        if recursive: wavs = glob.glob(folder_with_recordings.replace('*', '**/*'), recursive = recursive)
+        else: wavs = glob.glob(folder_with_recordings)
+        
+        for wavName in wavs:
             pool=multiprocessing.Pool(nopUSE)
             fileDuration=librosa.get_duration(filename=wavName)
             sr=librosa.get_samplerate(wavName)
