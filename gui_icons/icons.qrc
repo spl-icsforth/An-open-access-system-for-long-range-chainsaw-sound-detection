@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="navigation">
+    <file>pop-out.png</file>
+    <file>pop-out2.png</file>
+    <file>pop-out3.png</file>
+  </qresource>
+</RCC>

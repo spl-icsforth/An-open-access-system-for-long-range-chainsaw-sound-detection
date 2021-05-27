@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
-    <height>671</height>
+    <width>580</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,21 +19,24 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>601</width>
-      <height>671</height>
+      <width>580</width>
+      <height>700</height>
      </rect>
     </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="SettingsPage">
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>600</width>
-        <height>671</height>
+        <width>580</width>
+        <height>700</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -47,13 +50,13 @@ border-radius: 10px
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QFrame" name="frame_3">
+      <widget class="QFrame" name="frame_2">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>90</y>
-         <width>581</width>
-         <height>401</height>
+         <x>30</x>
+         <y>60</y>
+         <width>521</width>
+         <height>471</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -70,8 +73,8 @@ border-radius: 10px
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>581</width>
-          <height>401</height>
+          <width>521</width>
+          <height>471</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -85,8 +88,8 @@ border-radius: 10px
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>581</width>
-           <height>339</height>
+           <width>521</width>
+           <height>409</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -95,12 +98,12 @@ border-radius: 10px
          <attribute name="label">
           <string>&gt;&gt; Directory selection</string>
          </attribute>
-         <widget class="QCheckBox" name="Delete_interm">
+         <widget class="QCheckBox" name="del_temp">
           <property name="geometry">
            <rect>
-            <x>25</x>
-            <y>300</y>
-            <width>265</width>
+            <x>50</x>
+            <y>360</y>
+            <width>181</width>
             <height>16</height>
            </rect>
           </property>
@@ -111,8 +114,8 @@ border-radius: 10px
          <widget class="QPushButton" name="btn_dir">
           <property name="geometry">
            <rect>
-            <x>90</x>
-            <y>20</y>
+            <x>40</x>
+            <y>30</y>
             <width>151</width>
             <height>61</height>
            </rect>
@@ -143,8 +146,8 @@ Directory</string>
          <widget class="QCheckBox" name="include_sub">
           <property name="geometry">
            <rect>
-            <x>300</x>
-            <y>30</y>
+            <x>40</x>
+            <y>100</y>
             <width>91</width>
             <height>32</height>
            </rect>
@@ -154,13 +157,13 @@ Directory</string>
 Subfolders</string>
           </property>
          </widget>
-         <widget class="QTextBrowser" name="wav_folder">
+         <widget class="QTextBrowser" name="pathIN">
           <property name="geometry">
            <rect>
-            <x>20</x>
-            <y>120</y>
+            <x>230</x>
+            <y>30</y>
             <width>271</width>
-            <height>51</height>
+            <height>71</height>
            </rect>
           </property>
           <property name="font">
@@ -179,11 +182,11 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7.8pt;&quot;&gt;[Please select a directory]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_9">
+         <widget class="QLabel" name="dir_label">
           <property name="geometry">
            <rect>
-            <x>24</x>
-            <y>100</y>
+            <x>230</x>
+            <y>10</y>
             <width>161</width>
             <height>16</height>
            </rect>
@@ -203,11 +206,11 @@ p, li { white-space: pre-wrap; }
            <string>Directory with wav files:</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_10">
+         <widget class="QLabel" name="files_label">
           <property name="geometry">
            <rect>
-            <x>300</x>
-            <y>100</y>
+            <x>40</x>
+            <y>150</y>
             <width>151</width>
             <height>16</height>
            </rect>
@@ -225,10 +228,10 @@ p, li { white-space: pre-wrap; }
          <widget class="QTextBrowser" name="wavs">
           <property name="geometry">
            <rect>
-            <x>300</x>
-            <y>120</y>
-            <width>271</width>
-            <height>141</height>
+            <x>40</x>
+            <y>170</y>
+            <width>431</width>
+            <height>151</height>
            </rect>
           </property>
           <property name="font">
@@ -253,8 +256,8 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>581</width>
-           <height>339</height>
+           <width>521</width>
+           <height>409</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -266,15 +269,15 @@ p, li { white-space: pre-wrap; }
          <widget class="QWidget" name="verticalLayoutWidget_2">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>0</y>
-            <width>561</width>
-            <height>321</height>
+            <x>30</x>
+            <y>20</y>
+            <width>461</width>
+            <height>361</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QFrame" name="frame_4">
+            <widget class="QFrame" name="model_frame">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -298,9 +301,9 @@ classification):</string>
              <widget class="QComboBox" name="model_sel">
               <property name="geometry">
                <rect>
-                <x>210</x>
+                <x>220</x>
                 <y>20</y>
-                <width>331</width>
+                <width>221</width>
                 <height>31</height>
                </rect>
               </property>
@@ -311,7 +314,7 @@ classification):</string>
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_5">
+            <widget class="QFrame" name="vad_frame">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -336,7 +339,7 @@ between 0.078-0.15]</string>
              <widget class="QDoubleSpinBox" name="vad_spin">
               <property name="geometry">
                <rect>
-                <x>440</x>
+                <x>340</x>
                 <y>20</y>
                 <width>101</width>
                 <height>31</height>
@@ -345,11 +348,26 @@ between 0.078-0.15]</string>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(255, 255, 255);</string>
               </property>
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.078000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>0.150000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.080000000000000</double>
+              </property>
              </widget>
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_6">
+            <widget class="QFrame" name="prob_frame">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -361,19 +379,20 @@ between 0.078-0.15]</string>
                <rect>
                 <x>20</x>
                 <y>10</y>
-                <width>201</width>
+                <width>171</width>
                 <height>58</height>
                </rect>
               </property>
               <property name="text">
                <string>Probability threshold chosen: 
-[Can take any value between 0-1]</string>
+[Can take any value 
+between 0-1]</string>
               </property>
              </widget>
              <widget class="QDoubleSpinBox" name="prob_spin">
               <property name="geometry">
                <rect>
-                <x>440</x>
+                <x>340</x>
                 <y>20</y>
                 <width>101</width>
                 <height>31</height>
@@ -382,11 +401,20 @@ between 0.078-0.15]</string>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(255, 255, 255);</string>
               </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.010000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.400000000000000</double>
+              </property>
              </widget>
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_7">
+            <widget class="QFrame" name="cpu_frame">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -406,42 +434,42 @@ between 0.078-0.15]</string>
                <string>Parallelization:</string>
               </property>
              </widget>
-             <widget class="QWidget" name="horizontalLayoutWidget">
+             <widget class="QWidget" name="gridLayoutWidget">
               <property name="geometry">
                <rect>
-                <x>182</x>
-                <y>0</y>
-                <width>391</width>
-                <height>80</height>
+                <x>150</x>
+                <y>20</y>
+                <width>291</width>
+                <height>31</height>
                </rect>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout">
-               <property name="leftMargin">
-                <number>40</number>
-               </property>
-               <item>
-                <widget class="QRadioButton" name="par_0">
-                 <property name="text">
-                  <string>No</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="par_1">
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="1">
+                <widget class="QRadioButton" name="radio_low">
                  <property name="text">
                   <string>Low</string>
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QRadioButton" name="par_2">
+               <item row="0" column="2">
+                <widget class="QRadioButton" name="radio_mid">
                  <property name="text">
                   <string>Mid</string>
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QRadioButton" name="par_3">
+               <item row="0" column="0">
+                <widget class="QRadioButton" name="radio_no">
+                 <property name="text">
+                  <string>No</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QRadioButton" name="radio_high">
                  <property name="text">
                   <string>Full</string>
                  </property>
@@ -456,12 +484,12 @@ between 0.078-0.15]</string>
         </widget>
        </widget>
       </widget>
-      <widget class="QFrame" name="frame_title_3">
+      <widget class="QFrame" name="frame_title">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>601</width>
+         <width>581</width>
          <height>31</height>
         </rect>
        </property>
@@ -474,10 +502,10 @@ between 0.078-0.15]</string>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="btn_min_3">
+       <widget class="QPushButton" name="btn_min">
         <property name="geometry">
          <rect>
-          <x>540</x>
+          <x>520</x>
           <y>5</y>
           <width>20</width>
           <height>20</height>
@@ -505,10 +533,10 @@ background-color: rgba(240, 135, 0, 150);
          <string>_</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_exit_3">
+       <widget class="QPushButton" name="btn_exit">
         <property name="geometry">
          <rect>
-          <x>570</x>
+          <x>550</x>
           <y>5</y>
           <width>20</width>
           <height>20</height>
@@ -536,12 +564,12 @@ background-color: rgba(235,0,0, 150);
          <string>X</string>
         </property>
        </widget>
-       <widget class="QLabel" name="title_3">
+       <widget class="QLabel" name="title">
         <property name="geometry">
          <rect>
           <x>11</x>
           <y>-3</y>
-          <width>371</width>
+          <width>381</width>
           <height>41</height>
          </rect>
         </property>
@@ -568,8 +596,8 @@ background-color: rgba(235,0,0, 150);
       <widget class="QPushButton" name="btn_run">
        <property name="geometry">
         <rect>
-         <x>190</x>
-         <y>550</y>
+         <x>170</x>
+         <y>580</y>
          <width>221</width>
          <height>60</height>
         </rect>
@@ -602,178 +630,169 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      </widget>
     </widget>
     <widget class="QWidget" name="ResultsPage">
-     <widget class="QStackedWidget" name="stackedWidget_2">
+     <widget class="QFrame" name="results_frame">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>601</width>
+        <width>600</width>
         <height>671</height>
        </rect>
       </property>
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="page_3">
-       <widget class="QFrame" name="frame_8">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>600</width>
-          <height>671</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(221, 231, 199, 255), stop:1 rgba(238, 248, 214, 255));
+      <property name="styleSheet">
+       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(221, 231, 199, 255), stop:1 rgba(238, 248, 214, 255));
 border-radius: 10px
 </string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QFrame" name="frame_3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>90</y>
+         <width>520</width>
+         <height>460</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(227, 227, 227);border-radius:10px;</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QPlainTextEdit" name="results">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>120</y>
+          <width>481</width>
+          <height>301</height>
+         </rect>
         </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+         </font>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
-        <widget class="QFrame" name="frame_9">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>581</width>
-           <height>401</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(227, 227, 227);border-radius:10px;</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QPlainTextEdit" name="results">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>120</y>
-            <width>551</width>
-            <height>231</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>15</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>221</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-            <underline>true</underline>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Directory with wav files scanned:</string>
-          </property>
-         </widget>
-         <widget class="QComboBox" name="filelist">
-          <property name="geometry">
-           <rect>
-            <x>220</x>
-            <y>90</y>
-            <width>331</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>151</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <underline>true</underline>
-           </font>
-          </property>
-          <property name="text">
-           <string>Results per file:</string>
-          </property>
-         </widget>
-         <widget class="QTextBrowser" name="wav_folder_2">
-          <property name="geometry">
-           <rect>
-            <x>300</x>
-            <y>10</y>
-            <width>251</width>
-            <height>61</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color:rgb(255, 255, 255)</string>
-          </property>
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="dir_label_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>221</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Directory with wav files scanned:</string>
+        </property>
+       </widget>
+       <widget class="QTextBrowser" name="pathIN_2">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>10</y>
+          <width>251</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 255, 255)</string>
+        </property>
+        <property name="html">
+         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7.8pt;&quot;&gt;[Please select a directory]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="btn_listen">
-          <property name="geometry">
-           <rect>
-            <x>400</x>
-            <y>280</y>
-            <width>141</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{ 
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="textEdit">
+        <property name="geometry">
+         <rect>
+          <x>470</x>
+          <y>120</y>
+          <width>31</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="lineWrapMode">
+         <enum>QTextEdit::NoWrap</enum>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="html">
+         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/navigation/pop-out3.png&quot; width=&quot;18&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="btn_xlsx">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>590</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{ 
 border:0.5px solid grey; 
 border-radius: 7px; 
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(9, 144, 0, 255), stop:1 rgba(16, 255, 0, 255));
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(60, 137, 109, 255), stop:1 rgba(60, 137, 109, 100));
 }
 QPushButton:hover{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(16, 254, 0, 255), stop:1 rgba(171, 255, 166, 255))
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 255), stop:1 rgba(255, 255, 255, 255));
 }
 
 QPushButton:disabled{
@@ -781,50 +800,110 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
 }
 
 </string>
-          </property>
-          <property name="text">
-           <string>Click to listen
-detections</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QFrame" name="frame_title_4">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>601</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgba(1, 32, 15, 100)</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <widget class="QPushButton" name="btn_min_4">
-          <property name="geometry">
-           <rect>
-            <x>540</x>
-            <y>5</y>
-            <width>20</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <family>Calibri</family>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{ 
+       </property>
+       <property name="text">
+        <string>Save as .xlsx</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="title_res">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>50</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Caladea</family>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       </property>
+       <property name="text">
+        <string>Results</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_txt">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>590</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{ 
+border:0.5px solid grey; 
+border-radius: 7px; 
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(60, 137, 109, 255), stop:1 rgba(60, 137, 109, 100));
+}
+QPushButton:hover{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 255), stop:1 rgba(255, 255, 255, 255));
+}
+
+QPushButton:disabled{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 10), stop:1 rgba(255, 255, 255, 10));
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>Save as .txt</string>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frame_title_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>581</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(1, 32, 15, 100)</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QPushButton" name="btn_min_5">
+        <property name="geometry">
+         <rect>
+          <x>520</x>
+          <y>5</y>
+          <width>20</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{ 
 border:none; 
 border-radius: 7px; 
 background-color:rgb(240, 135, 0);
@@ -832,30 +911,30 @@ background-color:rgb(240, 135, 0);
 QPushButton:hover{
 background-color: rgba(240, 135, 0, 150);
 }</string>
-          </property>
-          <property name="text">
-           <string>_</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="btn_exit_4">
-          <property name="geometry">
-           <rect>
-            <x>570</x>
-            <y>5</y>
-            <width>20</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <family>Corbel</family>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{ 
+        </property>
+        <property name="text">
+         <string>_</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_exit_5">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>5</y>
+          <width>20</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Corbel</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{ 
 border:none; 
 border-radius: 7px; 
 background-color: rgb(235, 0, 0);
@@ -863,144 +942,47 @@ background-color: rgb(235, 0, 0);
 QPushButton:hover{
 background-color: rgba(235,0,0, 150);
 }</string>
-          </property>
-          <property name="text">
-           <string>X</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="title_4">
-          <property name="geometry">
-           <rect>
-            <x>11</x>
-            <y>-3</y>
-            <width>371</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <family>Caladea</family>
-            <pointsize>14</pointsize>
-            <weight>75</weight>
-            <italic>false</italic>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-          </property>
-          <property name="text">
-           <string>CHA.D. - Chainsaw Detection (v 1.1)</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QPushButton" name="btn_xlsx">
-         <property name="geometry">
-          <rect>
-           <x>350</x>
-           <y>530</y>
-           <width>151</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{ 
-border:0.5px solid grey; 
-border-radius: 7px; 
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(60, 137, 109, 255), stop:1 rgba(60, 137, 109, 100));
-}
-QPushButton:hover{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 255), stop:1 rgba(255, 255, 255, 255));
-}
-
-QPushButton:disabled{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 10), stop:1 rgba(255, 255, 255, 10));
-}
-
-</string>
-         </property>
-         <property name="text">
-          <string>Save as .xlsx</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="title_res">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>50</y>
-           <width>81</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>Caladea</family>
-           <pointsize>14</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-         </property>
-         <property name="text">
-          <string>Results</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_txt">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>530</y>
-           <width>151</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{ 
-border:0.5px solid grey; 
-border-radius: 7px; 
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(60, 137, 109, 255), stop:1 rgba(60, 137, 109, 100));
-}
-QPushButton:hover{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 255), stop:1 rgba(255, 255, 255, 255));
-}
-
-QPushButton:disabled{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(172, 194, 170, 10), stop:1 rgba(255, 255, 255, 10));
-}
-
-</string>
-         </property>
-         <property name="text">
-          <string>Save as .txt</string>
-         </property>
-        </widget>
+        </property>
+        <property name="text">
+         <string>X</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="title_5">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>-3</y>
+          <width>381</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Caladea</family>
+          <pointsize>14</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+        </property>
+        <property name="text">
+         <string>CHA.D. - Chainsaw Detection (v 1.1)</string>
+        </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="page_4"/>
      </widget>
     </widget>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="gui_icons/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
