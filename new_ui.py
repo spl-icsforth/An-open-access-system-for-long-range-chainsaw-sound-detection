@@ -296,17 +296,17 @@ class Ui_MainWindow(object):
         self.dir_label_2.setFont(font)
         self.dir_label_2.setStyleSheet("")
         self.dir_label_2.setObjectName("dir_label_2")
-        self.filelist = QtWidgets.QComboBox(self.frame_3)
-        self.filelist.setGeometry(QtCore.QRect(170, 90, 331, 22))
-        self.filelist.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.filelist.setObjectName("filelist")
-        self.label = QtWidgets.QLabel(self.frame_3)
-        self.label.setGeometry(QtCore.QRect(20, 90, 151, 16))
+        # self.filelist = QtWidgets.QComboBox(self.frame_3)
+        # self.filelist.setGeometry(QtCore.QRect(170, 90, 331, 22))
+        # self.filelist.setStyleSheet("background-color: rgb(255, 255, 255);")
+        # self.filelist.setObjectName("filelist")
+        # self.label = QtWidgets.QLabel(self.frame_3)
+        # self.label.setGeometry(QtCore.QRect(20, 90, 151, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setUnderline(True)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
+        # self.label.setFont(font)
+        # self.label.setObjectName("label")
         self.pathIN_2 = QtWidgets.QTextBrowser(self.frame_3)
         self.pathIN_2.setGeometry(QtCore.QRect(250, 10, 251, 61))
         font = QtGui.QFont()
@@ -519,7 +519,7 @@ class Ui_MainWindow(object):
         self.title.setText(_translate("MainWindow", "CHA.D. - Chainsaw Detection (v 1.1)"))
         self.btn_run.setText(_translate("MainWindow", "Run"))
         self.dir_label_2.setText(_translate("MainWindow", "Directory with wav files scanned:"))
-        self.label.setText(_translate("MainWindow", "Results per file:"))
+        # self.label.setText(_translate("MainWindow", "Results per file:"))
         self.pathIN_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -674,6 +674,12 @@ class Ui_MainWindow(object):
         res = pd.read_csv((pathIN + '/' + 'results_chainsaw.txt'), sep='\t') #, mode='a')                
         # self.results.setPlainText(res.to_string(index=False, col_space=30, justify='left'))
         self.results.setPlainText(res.to_markdown(index=False))#, tablefmt="grid"))
+        model = pandasModel(res)
+        self.view = QtWidgets.QTableView(parent = self.frame_3)
+        # self.view.setGeometry(QtCore.QRect(20, 140, 481, 281))
+        self.view.setGeometry(QtCore.QRect(20, 90, 481, 331))
+        self.view.setModel(model)
+#        self.view.show()
 
         # found = glob.glob(f"{cwd}/CoughResults/*.txt")
         # files = glob.glob(f"{self.pathIN.toPlainText()}/**/*.wav", recursive=True)
@@ -700,17 +706,17 @@ class Ui_MainWindow(object):
             #     self.res_text[cc] = self.df.to_string()
             #     self.extracted_wavs[cc] = f.replace(".txt", ".wav") #[fn for fn in files if cc in fn][0]
 
-    def change_results(self):
-        self.results.setPlainText(self.res_text[self.filelist.currentText()])
-        check=self.filelist.currentText()!="Select file"
-        if check:
-            self.btn_listen.show()
-            self.btn_xlsx.show()
-            self.btn_txt.show()
-        else:
-            self.btn_listen.hide()
-            self.btn_xlsx.hide()
-            self.btn_txt.hide()
+    # def change_results(self):
+    #     self.results.setPlainText(self.res_text[self.filelist.currentText()])
+    #     check=self.filelist.currentText()!="Select file"
+    #     if check:
+    #         self.btn_listen.show()
+    #         self.btn_xlsx.show()
+    #         self.btn_txt.show()
+    #     else:
+    #         self.btn_listen.hide()
+    #         self.btn_xlsx.hide()
+    #         self.btn_txt.hide()
         # self.btn_listen.setEnabled(check)
         # self.btn_xlsx.setEnabled(check)
         # self.btn_txt.setEnabled(check)
@@ -763,6 +769,33 @@ class MyWin(QtWidgets.QMainWindow, Ui_MainWindow):
             self.dragPos = event.globalPos()
             event.accept()     
 
+
+from PyQt5.QtWidgets import QApplication, QTableView
+from PyQt5.QtCore import QAbstractTableModel, Qt
+
+
+class pandasModel(QAbstractTableModel):
+
+    def __init__(self, data):
+        QAbstractTableModel.__init__(self)
+        self._data = data
+
+    def rowCount(self, parent=None):
+        return self._data.shape[0]
+
+    def columnCount(self, parnet=None):
+        return self._data.shape[1]
+
+    def data(self, index, role=Qt.DisplayRole):
+        if index.isValid():
+            if role == Qt.DisplayRole:
+                return str(self._data.iloc[index.row(), index.column()])
+        return None
+
+    def headerData(self, col, orientation, role):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return self._data.columns[col]
+        return None
 
 
 if __name__ == "__main__":
