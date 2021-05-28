@@ -2,6 +2,7 @@ argparse
 audioread
 soundfile
 pandas
+tabulate
 librosa
 tensorflow
 numba==0.48

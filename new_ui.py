@@ -279,8 +279,9 @@ class Ui_MainWindow(object):
         self.frame_3.setObjectName("frame_3")
         self.results = QtWidgets.QPlainTextEdit(self.frame_3)
         self.results.setGeometry(QtCore.QRect(20, 140, 481, 281))
+        self.results.setWordWrapMode(QtGui.QTextOption.NoWrap) 
         font = QtGui.QFont()
-        font.setPointSize(15)
+        font.setPointSize(10)
         self.results.setFont(font)
         self.results.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.results.setReadOnly(True)
@@ -463,7 +464,7 @@ class Ui_MainWindow(object):
 
         max_cpus = self.count_processors()
         # print(f"parchoice {self.parchoice.get()}, cpus = {self.cpus.get()}")
-        self.cpu_choice_list = [1, max_cpus//4, max_cpus//2, max_cpus]
+        self.cpu_choice_list = [1, max_cpus//4, max_cpus//2, max_cpus-1]
         self.cpus = 1
         self.radio_low.clicked.connect(self.parse_cpu_radio)
         self.radio_mid.clicked.connect(self.parse_cpu_radio)
@@ -665,35 +666,39 @@ class Ui_MainWindow(object):
         QtWidgets.QMessageBox.information(self, 'Save succesful!',
             f"File saved as\n{fname}", QtWidgets.QMessageBox.Ok)
 
-
     def initialize_files(self):
         import glob, os, pandas as pd, numpy as np
-        self.pathIN_2.setText(self.pathIN.toPlainText())
+        pathIN = self.pathIN.toPlainText()
+        self.pathIN_2.setText(pathIN)
         cwd = os.getcwd().replace("\\", "/")
-        found = glob.glob(f"{cwd}/CoughResults/*.txt")
-        files = glob.glob(f"{self.pathIN.toPlainText()}/**/*.wav", recursive=True)
-        self.df = pd.DataFrame()
-        self.results.setPlainText("Please select a file to view cough segments detected.")
+        res = pd.read_csv((pathIN + '/' + 'results_chainsaw.txt'), sep='\t') #, mode='a')                
+        # self.results.setPlainText(res.to_string(index=False, col_space=30, justify='left'))
+        self.results.setPlainText(res.to_markdown(index=False))#, tablefmt="grid"))
+
+        # found = glob.glob(f"{cwd}/CoughResults/*.txt")
+        # files = glob.glob(f"{self.pathIN.toPlainText()}/**/*.wav", recursive=True)
+        # self.df = pd.DataFrame()
+        # self.results.setPlainText("Please select a file to view chainsaw detectections.")
         self.results.setReadOnly(True)
         self.btn_listen.hide()
         self.btn_xlsx.hide()
         self.btn_txt.hide()
 
-        if len(found)==0:
-            self.filelist.addItem("-")
-            self.results.setPlainText("No chainsaw instances found.")
-            self.filelist.setEnabled(False)
-        else:
-            self.res_text = dict()
-            self.extracted_wavs = dict()
-            self.filelist.addItem("Select file")
-            self.res_text["Select file"]="Please select a file to view chainsaw segments detected."
-            for f in found:
-                cc = f.replace("\\", "/").split("/")[-1].split("_coughDetections.txt")[0]
-                self.filelist.addItem(cc)
-                self.df = pd.DataFrame(np.loadtxt(f)[:,1:], columns=["Time (s)", "Confidence"], index=np.loadtxt(f)[:,0].astype(int)) 
-                self.res_text[cc] = self.df.to_string()
-                self.extracted_wavs[cc] = f.replace(".txt", ".wav") #[fn for fn in files if cc in fn][0]
+        # if len(found)==0:
+        #     self.filelist.addItem("-")
+        #     self.results.setPlainText("No chainsaw instances found.")
+        #     self.filelist.setEnabled(False)
+        # else:
+        #     self.res_text = dict()
+        #     self.extracted_wavs = dict()
+        #     self.filelist.addItem("Select file")
+        #     self.res_text["Select file"]="Please select a file to view chainsaw segments detected."
+            # for f in found:
+            #     cc = f.replace("\\", "/").split("/")[-1].split("_chainsaw.txt")[0]
+            #     self.filelist.addItem(cc)
+            #     self.df = pd.DataFrame(np.loadtxt(f)[:,1:], columns=["Time (s)", "Confidence"], index=np.loadtxt(f)[:,0].astype(int)) 
+            #     self.res_text[cc] = self.df.to_string()
+            #     self.extracted_wavs[cc] = f.replace(".txt", ".wav") #[fn for fn in files if cc in fn][0]
 
     def change_results(self):
         self.results.setPlainText(self.res_text[self.filelist.currentText()])
@@ -729,6 +734,7 @@ class Ui_MainWindow(object):
         self.hide()
         main(vpathIN, vvad_th, \
          vprob_th, vcpus, del_temp = del_temp, model=model, recursive = self.include_sub.isChecked())
+        
         self.stackedWidget.setCurrentIndex(1)
         self.initialize_files()
         self.show()
