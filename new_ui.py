@@ -178,9 +178,9 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.radio_low, 0, 1, 1, 1)
         self.radio_mid = QtWidgets.QRadioButton(self.gridLayoutWidget)
         self.radio_mid.setObjectName("radio_mid")
+        self.radio_mid.setChecked(True)
         self.gridLayout.addWidget(self.radio_mid, 0, 2, 1, 1)
         self.radio_no = QtWidgets.QRadioButton(self.gridLayoutWidget)
-        self.radio_no.setChecked(True)
         self.radio_no.setObjectName("radio_no")
         self.gridLayout.addWidget(self.radio_no, 0, 0, 1, 1)
         self.radio_high = QtWidgets.QRadioButton(self.gridLayoutWidget)
@@ -287,7 +287,7 @@ class Ui_MainWindow(object):
         self.results.setReadOnly(True)
         self.results.setObjectName("results")
         self.dir_label_2 = QtWidgets.QLabel(self.frame_3)
-        self.dir_label_2.setGeometry(QtCore.QRect(20, 10, 221, 21))
+        self.dir_label_2.setGeometry(QtCore.QRect(20, 10, 221, 42))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(False)
@@ -470,6 +470,8 @@ class Ui_MainWindow(object):
         self.radio_mid.clicked.connect(self.parse_cpu_radio)
         self.radio_no.clicked.connect(self.parse_cpu_radio)
         self.radio_high.clicked.connect(self.parse_cpu_radio)
+        self.btn_xlsx.clicked.connect(self.export_xlsx)
+        self.btn_txt.clicked.connect(self.export_txt)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -518,7 +520,7 @@ class Ui_MainWindow(object):
         self.btn_exit.setText(_translate("MainWindow", "X"))
         self.title.setText(_translate("MainWindow", "CHA.D. - Chainsaw Detection (v 1.1)"))
         self.btn_run.setText(_translate("MainWindow", "Run"))
-        self.dir_label_2.setText(_translate("MainWindow", "Directory with wav files scanned:"))
+        self.dir_label_2.setText(_translate("MainWindow", "Directory with wav files scanned:\n(Subfolders NOT included)"))
         # self.label.setText(_translate("MainWindow", "Results per file:"))
         self.pathIN_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -564,6 +566,7 @@ class Ui_MainWindow(object):
             self.btn_run.setText("Run\n(Select a valid directory)")
             self.btn_run.setEnabled(False)
         self.wavs.setText(files)
+
 
     def selectionchange(self,i):
         self.model = self.model_sel.currentText()
@@ -636,33 +639,31 @@ class Ui_MainWindow(object):
         # self.copied_lbl_txt.set("(Copied!)")
 
     def export_xlsx(self):
-        if self.filelist.currentText()=="Select file":
-            return
         import os
-        fname = f'CoughResults/{self.filelist.currentText().replace(".wav", ".xlsx")}'
+        fname = f'{self.pathIN.toPlainText()}/results_chainsaw.xlsx'
         i=1
         if os.path.exists(fname):
             fname = fname.replace(".xlsx", f"_{i}.xlsx")
             while os.path.exists(fname):
                 i+=1
                 fname = fname.replace(f"_{i-1}.xlsx", f"_{i}.xlsx")
-        self.df.to_excel(fname)
+        self.df.to_excel(fname, index=False)
         QtWidgets.QMessageBox.information(self, 'Save succesful!',
             f"File saved as\n{fname}", QtWidgets.QMessageBox.Ok)
         
     def export_txt(self):
-        if self.filelist.currentText()=="Select file":
-            return
         import os
-        fname = f'CoughResults/{self.filelist.currentText().replace(".wav", ".txt")}'
+        fname = f'{self.pathIN.toPlainText()}/results_chainsaw.txt'
         i=1
         if os.path.exists(fname):
             fname = fname.replace(".txt", f"_{i}.txt")
             while os.path.exists(fname):
                 i+=1
                 fname = fname.replace(f"_{i-1}.txt", f"_{i}.txt")
-        with open(fname, 'w+') as file:
-            file.write(self.df.to_string())
+        # with open(fname, 'w+') as file:
+            # file.write(self.df.to_string(index=False, na_rep = '-', sep='\t'))
+        self.df.to_csv((fname), index=False, header=True, sep='\t') #, mode='a')                
+
         QtWidgets.QMessageBox.information(self, 'Save succesful!',
             f"File saved as\n{fname}", QtWidgets.QMessageBox.Ok)
 
@@ -671,24 +672,32 @@ class Ui_MainWindow(object):
         pathIN = self.pathIN.toPlainText()
         self.pathIN_2.setText(pathIN)
         cwd = os.getcwd().replace("\\", "/")
-        res = pd.read_csv((pathIN + '/' + 'results_chainsaw.txt'), sep='\t') #, mode='a')                
-        # self.results.setPlainText(res.to_string(index=False, col_space=30, justify='left'))
-        self.results.setPlainText(res.to_markdown(index=False))#, tablefmt="grid"))
-        model = pandasModel(res)
-        self.view = QtWidgets.QTableView(parent = self.frame_3)
-        # self.view.setGeometry(QtCore.QRect(20, 140, 481, 281))
-        self.view.setGeometry(QtCore.QRect(20, 90, 481, 331))
-        self.view.setModel(model)
+        if not os.path.exists(pathIN + '/' + 'results_chainsaw.txt'):
+            self.results.setPlainText("No chainsaw instances found.")
+            self.results.show()
+            self.results.setReadOnly(True)
+            self.btn_listen.hide()
+            self.btn_xlsx.hide()
+            self.btn_txt.hide()
+        else:
+            self.df = pd.read_csv((pathIN + '/' + 'results_chainsaw.txt'), sep='\t') #, mode='a')                
+            self.results.setPlainText(self.df.to_markdown(index=False))#, tablefmt="grid"))
+            model = pandasModel(self.df)
+            self.view = QtWidgets.QTableView(parent = self.frame_3)
+            # self.view.setGeometry(QtCore.QRect(20, 140, 481, 281))
+            self.view.setGeometry(QtCore.QRect(20, 90, 481, 331))
+            self.view.setModel(model)
+            self.results.hide()
+            self.btn_listen.hide()
+
 #        self.view.show()
 
         # found = glob.glob(f"{cwd}/CoughResults/*.txt")
         # files = glob.glob(f"{self.pathIN.toPlainText()}/**/*.wav", recursive=True)
         # self.df = pd.DataFrame()
         # self.results.setPlainText("Please select a file to view chainsaw detectections.")
-        self.results.setReadOnly(True)
-        self.btn_listen.hide()
-        self.btn_xlsx.hide()
-        self.btn_txt.hide()
+        # self.btn_xlsx.hide()
+        # self.btn_txt.hide()
 
         # if len(found)==0:
         #     self.filelist.addItem("-")
@@ -736,14 +745,19 @@ class Ui_MainWindow(object):
         vprob_th = self.prob_spin.value()
         model = self.model_sel.currentText().replace("pcen_rnn4_cl2_RMED_allARUs_run0.hdf5 (default)", "pcen_rnn4_cl2_RMED_allARUs_run0.hdf5")
         del_temp = self.del_temp.isChecked()
+        recursive = self.include_sub.isChecked()
         print("Starting execution. Please wait...")
         self.hide()
         main(vpathIN, vvad_th, \
-         vprob_th, vcpus, del_temp = del_temp, model=model, recursive = self.include_sub.isChecked())
+         vprob_th, vcpus, del_temp = del_temp, model=model, recursive = recursive)
         
         self.stackedWidget.setCurrentIndex(1)
         self.initialize_files()
         self.show()
+        med = (1-recursive)*"NOT "
+        suffix = f"(Subfolders {med}included)"
+        self.dir_label_2.setText("Directory with wav files scanned:\n"+suffix)
+
         #QtCore.QCoreApplication.instance().quit()
 
 
