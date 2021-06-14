@@ -134,7 +134,7 @@ def defineIdxBorders(Ns,frameStepFTR,Nfr,hopDurFTR_s,durationFTR,timeUtterStart)
     return Nframes,idxBorders,ftrTimeInterval  
 
 #%%
-def extract_pcen_feature(wavName,outputFilePath,timeBorders,segmIdx,VADthresh):    
+def extract_pcen_feature(wavName,outputFilePath,durations,timeBorders,segmIdx,VADthresh):    
     '''
     Function to extract PCEN features for each wav file.
     '''
@@ -180,12 +180,17 @@ def extract_pcen_feature(wavName,outputFilePath,timeBorders,segmIdx,VADthresh):
     Ncount=0
     ftrTimeBorders=np.zeros((0,2),dtype=float)    
     featMatrix=np.zeros((0,Nfr,Nbins4USE), dtype=np.float16) #for 6000 samples.
-    
+ 
+    if len(durations)>1:
+        accumulativeDuration=np.sum(durations[:-1])
+    else:
+        accumulativeDuration=0
+            
     fullwavName=wavName.split(os.sep)[-1]
     recName=fullwavName.split('.wav')[0]  
     segmDur=timeBorders[segmIdx+1]-timeBorders[segmIdx]
     segmTimeStart=timeBorders[segmIdx]    
-    name2save=(outputFilePath + '/' + 'Features/' + recName + '_start_' + format(int(segmTimeStart),'05d') + '.obj') 
+    name2save=(outputFilePath + '/' + 'features/' + recName + '_start_' + format(int(segmTimeStart),'05d') + '.obj') 
     
 #%% Check if feature objects  are already extracted with the same VAD threshold, if yes, do not produce them again 
     if os.path.exists(name2save) == False:
@@ -202,10 +207,17 @@ def extract_pcen_feature(wavName,outputFilePath,timeBorders,segmIdx,VADthresh):
     if run_segment:
         print('running now segment ' + str(segmIdx) +  ' of file ' + wavName)
         sIN, sr = librosa.load(wavName, sr=Fs, offset=segmTimeStart,duration=segmDur); 
-        srh,timePoints,sampleIdxs =  pitch_srh_preselect(sIN,Fs,F0min,F0max,hopDurVAD_ms,frameDurVAD_ms,NbinsSRH)
+        try:
+            srh,timePoints,sampleIdxs =  pitch_srh_preselect(sIN,Fs,F0min,F0max,hopDurVAD_ms,frameDurVAD_ms,NbinsSRH)
+            keptIdxs,Nu=find_active_segments(srh,VADthresh)    
+        except:
+            randIN=10**(-24)*(np.random.rand(np.shape(sIN))-0.5)    
+            srh,timePoints,sampleIdxs =  pitch_srh_preselect(sIN+randIN,Fs,F0min,F0max,hopDurVAD_ms,frameDurVAD_ms,NbinsSRH)
+            keptIdxs,Nu=find_active_segments(srh,VADthresh)            
+#            keptIdxs=np.zeros((0,))
+#            print('Something went wrong, skipping segment ' + str(segmIdx) + ' of wavfile named ' + wavName)  
         del sIN
         
-        keptIdxs,Nu=find_active_segments(srh,VADthresh)
         if keptIdxs.size>0:
             utIdxs,Nutters=find_utterance_Idxs(keptIdxs,Nu,NcontAct,Nelastic,Nfr_vad) #,maxUtterLength)  
             for m in range(Nutters):
@@ -231,6 +243,6 @@ def extract_pcen_feature(wavName,outputFilePath,timeBorders,segmIdx,VADthresh):
         Nsamples=np.shape(featMatrix)[0] 
         with open(name2save, 'wb') as fid:        
             pickle.dump({'X' : featMatrix,'ftrTB':ftrTimeBorders,'Nw': wavName,
-                         'Ns': Nsamples, 'Nr':recName,'VADthresh':VADthresh}, fid) #, 'probs':sawProbs
+                         'Ns': Nsamples, 'accumulativeDuration':accumulativeDuration,'Nr':recName,'VADthresh':VADthresh}, fid) #, 'probs':sawProbs
 
      
