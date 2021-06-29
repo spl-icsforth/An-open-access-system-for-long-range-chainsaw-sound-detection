@@ -15,45 +15,102 @@ After installation, "anaconda prompt" will show up in the program list.
     ```sh
     pip install -r requirements.txt
     ```
-    in order to install all required libraries.
-    This might take some time but it is important for this procedure to be completed 
+​    in order to install all required libraries.
+​    This might take some time but it is important for this procedure to be completed 
+
     successfully.
 -----
 ## Running the algorithm on your data
-The system should be ready to run by now. You can run the tool by calling "detect_chainsaw.py" function.
+The system should be ready to run by now. You can run the tool by calling "detect_chainsaw.py" function for the command line version or "detect_chainsaw_gui.py" for the GUI version.
+
 1) Open anaconda prompt and navigate to the source code.
-2)  a) Run the gui version of the script by running the following command:
-        ```sh
-        python detect_chainsaw_gui.py
+
+<img src="doc/images/01.png" width="500">
+
+2)  1) Run the command line version by passing as argument the path of the folder which contains the recordings to be analyzed.
+For example, if the path is "D:/audio/saw_recordings/RP10", then we can simply type (in anaconda prompt):
+    ```sh
+    python detect_chainsaw.py D:/audio/saw_recordings/RP10
+    ```
+
+<img src="doc/images/2.png" width="500">
+
+* The path of the folder which contains the recordings is the only mandatory input argument.
+* Additional input parameters can be given as follows;
+    * The **VAD threshold value**,  which determines in a way the "sensitivity" of the algorithm.  We can alter the VAD threshold by typing the following command
+        ```py
+        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -t xxx
         ```
-        
-    b) Run the command line vresion by passing as argument the path of the folder which contains the recordings to be analyzed.
-    For example, if the path is "D:/audio/saw_recordings/RP10", then we can simply type (in anaconda prompt):
-        ```sh
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10
+        where xxx is the desired value. The default value is 0.08. Furthermore, the minimum acceptable value is 0.078 and there is no upper limit. However, very high values of the threshold will not trigger any detections
+    * **Number of CPUs** to be used. For example, if we want to engage 4 CPUs, we can type:
+        ```py
+        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -u 4
         ```
-    * The path of the folder which contains the recordings is the only mandatory input argument.
-    * Additional input parameters can be given as follows;
-        * The **VAD threshold value**,  which determines in a way the "sensitivity" of the algorithm.  We can alter the VAD threshold by typing the following command
-            ```py
-            python detect_chainsaw.py D:/audio/saw_recordings/RP10 -t xxx
-            ```
-            where xxx is the desired value. The default value is 0.08. Furthermore, the minimum acceptable value is 0.078 and there is no upper limit. However, very high values of the threshold will not trigger any detections
-        * **Number of CPUs** to be used. For example, if we want to engage 4 CPUs, we can type:
-            ```py
-            python detect_chainsaw.py D:/audio/saw_recordings/RP10 -u 4
-            ```
-        * **Classifier's probability threshold**. For example, if we want to set a probability threshold equal to 0.5, we can type:
-            ```py
-            python detect_chainsaw.py D:/audio/saw_recordings/RP10 -p 0.5
-            ```
-            The default value of the probability threshold is 0.75.
+    * **Classifier's probability threshold**. For example, if we want to set a probability threshold equal to 0.5, we can type:
+        ```py
+        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -p 0.5
+        ```
+        The default value of the probability threshold is 0.75.
+    
+* After waiting an amount of time a proportionate to the number of input files, execution will be completed and you will see results printed in anaconda prompt. If you finished the analysis, you can quit anaconda prompt. 
+
+<img src="doc/images/9.png" width="500"> 
+
+
+
+2) Run the graphical version of the tool by running: 
+		```sh
+		python detect_chainsaw_gui.py
+		```	
+
+<img src="doc/images/1.png" width="400">
+	
+
+* Click «Select directory» to choose the directory which contains the input files for the algorithm. A file dialog will open and you can navigate through your drives to find desired folder. (Note: Apart from the selected root directory, .wav files from all the subdirectories will also be included.
+
+* After choosing the desired directory, .wav files that are going to be processed will appear in the text box  «Files to be processed» and button "Run" will be activated. In case you have selected wrong directory, you can change by clicking «Change directory». You can also choose the number of threads to be used for the execution.
+
+   <img src="doc/images/2.png" width="400">
+
+- Click on "Advanced Parameters" to expand the tab for the configuration of the algorithm.
+
+  <img src="doc/images/4.png" width="500">
+
+  <!--
+
+* After clicking "Run", GUI will disappear and execution continues on command prompt.
+
+	<img src="doc/images/8.png" width="500"> -->
+
+* When execution finishes, GUI will appear again presenting the results. 
+
+  <img src="doc/images/6.png" width="400">
+
+  <!--
+
+* If you click "Save as .txt", "Save as .xlsx", current showing results will be saved in the corresponding filetype and a message with the directory and the filename of the saved file will pop up.
+
+   <img src="doc/images/13.png" width="400">
+
+* An example of an excel file exported through the tool:
+
+  <img src="doc/images/14.png" width="200">
+
+  -->
+
+* In case the following screen appeared after execution of the tool, no chainsaw segments were detected through the analysis.
+
+	<img src="doc/images/5.png" width="400">
+
+
+
 -----
 ## OUTPUT (what kind of files are created at the end of the analysis)
-Two folders are created inside the primary folder;
-1) A "Features" folder, which consists of the acoustic features that are necessary
-for classification.
-2) A "Extracted_segments" folder, which consists of the acoustic segments that are classified as chainsaw by the algorithm. The naming convetion reflects the temporal location of each segment and the corresponding `chainsaw` class probability
+In both command line and GUI version of the tool, the output files are the same.
+Throughout analysis, two folders are created inside the primary folder; 1) A "features" folder, which consists of the acoustic features that are necessary
+for classification. 2) An "extracted_segments" folder, which consists of the acoustic segments that are classified as chainsaw by the algorithm. The naming convention reflects the temporal location of each segment and the corresponding `chainsaw` class probability
+
+In the case of the GUI version, depending on user choices in the last step, output files could be more (e.g. one .xlsx or one (raven compatible) .txt file presenting the results)
 
 --------
 
@@ -66,11 +123,11 @@ for classification.
 
 4) For long-duration recordings, the tool is configured to utilize many CPUs at the same time.
 
-5) Two evironment configurations where the current version of the system was tested are included in the project folder as "tested_environment_1.txt" and "tested_environment_2.txt". You can refer to them for any error you face regarding the libraries.
+5) Two environment configurations where the current version of the system was tested are included in the project folder as "tested_environment_1.txt" and "tested_environment_2.txt". You can refer to them for any error you face regarding the libraries.
 
 6) In case of any notice/ideas/proposals/issues regarding the system, you can open an issue in the project or contact us directly.
 
- [anaconda]: <https://anaconda.org/>
+[anaconda]: <https://anaconda.org/>
 
 -----
 
@@ -85,7 +142,7 @@ Copyright (c) 2021 **Nikolaos Stefanakis, Konstantinos Psaroulakis, Nikonas Simo
 ## How to reference
 If you find any of this library useful for your research please cite as:
 
-N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open access system for long-range chainsaw sound detection" submitted for publication in EUSIPCO 2021.
+N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open access system for long-range chainsaw sound detection".  
 
 -----
 
