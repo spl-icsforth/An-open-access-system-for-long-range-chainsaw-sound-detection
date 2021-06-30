@@ -25,82 +25,93 @@ The system should be ready to run by now. You can run the tool by calling "detec
 
 1) Open anaconda prompt and navigate to the source code.
 
-<img src="doc/images/01.png" width="500">
+<img src="doc/images/gui-img01.JPG" width="400">
+
+
 
 2)  1) Run the command line version by passing as argument the path of the folder which contains the recordings to be analyzed.
-For example, if the path is "D:/audio/saw_recordings/RP10", then we can simply type (in anaconda prompt):
+For example, if the path is "D:/test_samples", then we can simply type (in anaconda prompt):
     ```sh
-    python detect_chainsaw.py D:/audio/saw_recordings/RP10
+    python detect_chainsaw.py D:/test_samples
     ```
 
-<img src="doc/images/2.png" width="500">
+<img src="doc/images/cmd-img2.JPG" width="800">
+
+
 
 * The path of the folder which contains the recordings is the only mandatory input argument.
 * Additional input parameters can be given as follows;
     * The **VAD threshold value**,  which determines in a way the "sensitivity" of the algorithm.  We can alter the VAD threshold by typing the following command
         ```py
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -t xxx
+        python detect_chainsaw.py D:/test_samples 0 -t xxx
         ```
         where xxx is the desired value. The default value is 0.08. Furthermore, the minimum acceptable value is 0.078 and there is no upper limit. However, very high values of the threshold will not trigger any detections
     * **Number of CPUs** to be used. For example, if we want to engage 4 CPUs, we can type:
         ```py
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -u 4
+        python detect_chainsaw.py D:/test_samples -u 4
         ```
     * **Classifier's probability threshold**. For example, if we want to set a probability threshold equal to 0.5, we can type:
+        
         ```py
-        python detect_chainsaw.py D:/audio/saw_recordings/RP10 -p 0.5
+        python detect_chainsaw.py D:/test_samples -p 0.5
         ```
         The default value of the probability threshold is 0.75.
     
 * After waiting an amount of time a proportionate to the number of input files, execution will be completed and you will see results printed in anaconda prompt. If you finished the analysis, you can quit anaconda prompt. 
 
-<img src="doc/images/9.png" width="500"> 
+<img src="doc/images/cmd-img3.JPG" width="800"> 
 
 
 
 2) Run the graphical version of the tool by running: 
-		```sh
+		``` sh
 		python detect_chainsaw_gui.py
 		```	
 
-<img src="doc/images/1.png" width="400">
+
+
+
+
+<img src="doc/images/1.JPG" width="400"> 
 	
 
-* Click «Select directory» to choose the directory which contains the input files for the algorithm. A file dialog will open and you can navigate through your drives to find desired folder. (Note: Apart from the selected root directory, .wav files from all the subdirectories will also be included.
+* Click «Select directory» to choose the directory which contains the input files for the algorithm. A file dialog will open and you can navigate through your drives to find desired folder. You can include subfolders by checking "Include Subfolders" box.
 
 * After choosing the desired directory, .wav files that are going to be processed will appear in the text box  «Files to be processed» and button "Run" will be activated. In case you have selected wrong directory, you can change by clicking «Change directory». You can also choose the number of threads to be used for the execution.
 
-   <img src="doc/images/2.png" width="400">
+* Before clicking "Run", you can check the box "Delete intermediate files" to delete features extracted during the analysis. However if you keep these intermediate files, you can repeat analysis without changing vad threshold (changing only probability threshold) much faster, since features of audio files would be already extracted. 
+
+   <img src="doc/images/2.JPG" width="00">
 
 - Click on "Advanced Parameters" to expand the tab for the configuration of the algorithm.
 
-  <img src="doc/images/4.png" width="500">
+  <img src="doc/images/4.JPG" width="400">
 
-  <!--
+  
 
 * After clicking "Run", GUI will disappear and execution continues on command prompt.
 
-	<img src="doc/images/8.png" width="500"> -->
+	<img src="doc/images/gui-img-between.JPG" width="800"> -->
 
 * When execution finishes, GUI will appear again presenting the results. 
 
-  <img src="doc/images/6.png" width="400">
+  <img src="doc/images/gui-img05.JPG" width="400">
 
-  <!--
+  
 
 * If you click "Save as .txt", "Save as .xlsx", current showing results will be saved in the corresponding filetype and a message with the directory and the filename of the saved file will pop up.
 
-   <img src="doc/images/13.png" width="400">
+   <img src="doc/images/gui-img-res-save.JPG" width="400">
 
 * An example of an excel file exported through the tool:
 
-  <img src="doc/images/14.png" width="200">
+  <img src="doc/images/gui-img-res-save-xl.JPG" width="1000">
 
-  -->
+  
 
 * In case the following screen appeared after execution of the tool, no chainsaw segments were detected through the analysis.
 
-	<img src="doc/images/5.png" width="400">
+	<img src="doc/images/5.JPG" width="400">
 
 
 
