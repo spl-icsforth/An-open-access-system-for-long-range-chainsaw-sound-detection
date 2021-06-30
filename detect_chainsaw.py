@@ -72,11 +72,11 @@ def main():
     Nclasses=2 
      
 # %%
-    if os.path.exists(inputWavPath + '/' + 'Features') == False:
-        os.mkdir((inputWavPath + '/' + 'Features'))      
+    if os.path.exists(inputWavPath + '/' + 'features') == False:
+        os.mkdir((inputWavPath + '/' + 'features'))      
     
-    if os.path.exists(inputWavPath + '/' + 'Extracted_segments') == False:
-        os.mkdir((inputWavPath + '/' + 'Extracted_segments'))    
+    if os.path.exists(inputWavPath + '/' + 'extracted_segments') == False:
+        os.mkdir((inputWavPath + '/' + 'extracted_segments'))    
 
 #%% do the job  
     folder_with_recordings=(inputWavPath + '/*.wav')
