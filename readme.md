@@ -154,7 +154,7 @@ Copyright (c) 2021 **Nikolaos Stefanakis, Konstantinos Psaroulakis, Nikonas Simo
 ## How to reference
 If you find any of this library useful for your research please cite as:
 
-N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open access system for long-range chainsaw sound detection".  
+N. Stefanakis, K. Psaroulakis, N. Simou and C. Astaras, "An open-access system for long-range chainsaw sound detection", in Proceedings of EUSIPCO (2022).
 
 -----
 
