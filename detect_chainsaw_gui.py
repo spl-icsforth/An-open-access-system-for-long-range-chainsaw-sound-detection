@@ -10,7 +10,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys, os, glob
+import sys, os, glob, datetime
 sys.path.append("./functions")
 sys.path.append("./gui_icons")
 from main import main
@@ -540,7 +540,7 @@ class Ui_MainWindow(object):
         self.btn_min_5.setText(_translate("MainWindow", "_"))
         self.btn_exit_5.setText(_translate("MainWindow", "X"))
         self.title_5.setText(_translate("MainWindow", "CHA.D. - Chainsaw Detection (v 1.1)"))
-
+        self.parse_cpu_radio()
 
 
 
@@ -739,6 +739,7 @@ class Ui_MainWindow(object):
 
     def run_main(self):
         global vpathIN, vvad_th,vprob_th, vcpus , model, del_temp
+        time_start = datetime.datetime.today()
         vpathIN = self.pathIN.toPlainText()
         vcpus = int(self.cpus)
         vvad_th = self.vad_spin.value()
@@ -748,11 +749,46 @@ class Ui_MainWindow(object):
         recursive = self.include_sub.isChecked()
         print("Starting execution. Please wait...")
         self.hide()
+        parameters_dict = dict(
+            DirScaned = vpathIN,
+            subfolders = ["Not Included", "Included"][int(recursive)],
+            model = model,
+            VAD_th = vvad_th,
+            prob_th = vprob_th,
+            parallelization=["No", "Low", "Mid", "High"][self.cpu_choice_list.index(self.cpus)]
+        )
+        par_titles = dict(
+            DirScaned = "Directory Analyzed",
+            subfolders = "Subfolders",
+            model = "Model used",
+            VAD_th = "VAD threshold",
+            prob_th = "Probability threshold",
+            parallelization="Parallelization"
+        )
+        lines = ["Analysis info", "---------------", ""] 
+        lines.append(f"Started: {time_start.strftime('%Y-%m-%d %H:%M:%S')}")
+        lines.append("")
+        lines.append(f"Settings/Parameters:")
+        [lines.append(f"{par_titles[key]}= {parameters_dict[key]}") for key in parameters_dict.keys()]
+        lines.append("")
+        lines.append("(Analysis not finished)")
+        fname = vpathIN+"\\"+"analysis_info_"+time_start.strftime("%Y%m%d_%H%M%S")+".txt"
+        with open(fname, "w+") as fout:
+            fout.write(("\n").join(lines))
+
         main(vpathIN, vvad_th, \
          vprob_th, vcpus, del_temp = del_temp, model=model, recursive = recursive)
         
         self.stackedWidget.setCurrentIndex(1)
         self.initialize_files()
+        
+        time_end = datetime.datetime.today()
+        lines.remove("(Analysis not finished)")
+        lines.insert(4, f"Finished: {time_end.strftime('%Y-%m-%d %H:%M:%S')}")
+        lines.append("Analysis was completed succesfully")
+        with open(fname, "w+") as fout:
+            fout.write(("\n").join(lines))
+        
         self.show()
         med = (1-recursive)*"NOT "
         suffix = f"(Subfolders {med}included)"
