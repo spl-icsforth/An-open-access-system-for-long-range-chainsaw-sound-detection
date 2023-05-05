@@ -122,7 +122,7 @@ In both command line and GUI version of the tool, the output files are the same.
 Throughout analysis, two folders are created inside the primary folder; 1) A "features" folder, which consists of the acoustic features that are necessary
 for classification. 2) An "extracted_segments" folder, which consists of the acoustic segments that are classified as chainsaw by the algorithm. The naming convention reflects the temporal location of each segment and the corresponding `chainsaw` class probability
 
-In the case of the GUI version, depending on user choices in the last step, output files could be more (e.g. one .xlsx or one (raven compatible) .txt file presenting the results)
+In the case of the GUI version a txt file is created, containing the begin/end date and time of the analysis and the settings/parameters chosen for the current analysis. Also, depending on user choices in the last step, extra output files can be created (e.g. one .xlsx or one (raven compatible) .txt file presenting the results).
 
 --------
 
